@@ -6,12 +6,13 @@
 #include <GL/glut.h>
 #include "bone.h"
 #include "joint.h"
+#include "body.h"
 
 static float angle=0.0,ratio;
 static float x=0.0f,y=10.0f,z=50.0f;
 static float lx=0.0f,ly=0.0f,lz=-1.0f;
 float d = 50;
-bone torso3;
+body body1;
 
 
 void resize(int w, int h){
@@ -37,11 +38,7 @@ void resize(int w, int h){
 void initScene()
 {
 	glEnable(GL_DEPTH_TEST);
-    torso3 = bone(0,5, 0);
-    bone* torso1 = new bone(0,5,0);
-    joint* torso2 = new joint(0,5,0,0, 0, 10, torso1);
-
-    torso3.child = torso2;
+    body1.init();
 }
 
 void display(void)
@@ -57,7 +54,7 @@ void display(void)
 	glVertex3f( 100.0f, 0.0f,	100.0f);
 	glVertex3f( 100.0f, 0.0f, -100.0f);
 	glEnd();*/
-    torso3.draw();
+    body1.draw();
 
 
 	glutSwapBuffers();

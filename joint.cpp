@@ -2,8 +2,8 @@
 #include "bone.h"
 #include <GL/gl.h>
 #include <GL/glut.h>
-
-joint::joint(float x,float y,float z,float rx,float ry,float rz, bone* child){
+#include <iostream>
+joint::joint(float x,float y,float z,float rx,float ry,float rz, bone* child, string name){
 	this->x = x;
 	this->y = y;
 	this->z = z;
@@ -11,6 +11,7 @@ joint::joint(float x,float y,float z,float rx,float ry,float rz, bone* child){
 	this->ry = ry;
 	this->rz = rz;
 	this->child = child;
+	this->name = name;
 }
 joint::joint(){
 	this->x = 0;
@@ -20,8 +21,9 @@ joint::joint(){
 	this->ry = 0;
 	this->rz = 0;
 	this->child = NULL;
+	this->name = "";
 }
-joint::joint(float x,float y,float z,float rx,float ry,float rz){
+joint::joint(float x,float y,float z,float rx,float ry,float rz,string name){
 	this->x = x;
 	this->y = y;
 	this->z = z;
@@ -29,6 +31,7 @@ joint::joint(float x,float y,float z,float rx,float ry,float rz){
 	this->ry = ry;
 	this->rz = rz;
 	this->child = NULL;
+	this->name = name;
 }
 
 void joint::draw(){

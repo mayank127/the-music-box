@@ -1,8 +1,7 @@
 #ifndef JOINT_H
 #define JOINT_H
-#include <GL/gl.h>
-#include <GL/glut.h>
 using namespace std;
+#include <string>
 class bone;
 //Class for joint object
 class joint {
@@ -11,10 +10,11 @@ class joint {
 		float x,y,z;
 		float rx,ry,rz;
 		bone* child;
+		string name;
 		//constructor for joint
-		joint(float,float,float,float,float,float,bone*); //position, rotation and child bone
+		joint(float,float,float,float,float,float,bone*,string); //position, rotation and child bone
 		joint();												//null constructor
-		joint(float,float,float,float,float,float);			//position and rotation
+		joint(float,float,float,float,float,float,string);			//position and rotation
 
 		void draw();		//draw function
 };

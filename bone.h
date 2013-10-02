@@ -1,20 +1,20 @@
 #ifndef BONE_H
 #define BONE_H
-#include <GL/gl.h>
-#include <GL/glut.h>
+
+#include <list>
+#include <string>
 using namespace std;
 class joint;
 //Class for bone object
 class bone {
 	public:
-		float x1,y1,z1;
-		float x2,y2,z2;
-		joint* child;
-		//constructor for bone_t
-		bone(float,float,float);
-		bone(float,float,float,float,float,float,joint*); //both the points and child joint
+		float x,y,z;
+		list<joint*> childeren;
+		string name;
+		//constructor for bone
+		bone(float,float,float,list<joint*>,string); //points and childeren joint
 		bone();												//null constructor
-		bone(float,float,float,float,float,float);			//both end points
+		bone(float,float,float,string);			//end point
 
 		void draw();		//draw function
 };

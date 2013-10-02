@@ -35,7 +35,7 @@ $(TARGET): $(OBJS)
 
 $(OBJS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	@$(PRINTF) "Compiling $(notdir $<)\n"
-	@$(CC) $(LIBS) -c $< -o $@
+	@$(CC) $(LIBS) -c $< -o $@ -MD
 
 clean:
 	@$(ECHO) -n "Cleaning up..."
