@@ -7,6 +7,7 @@
 #include "bone.h"
 #include "joint.h"
 #include "body.h"
+#include "box.h"
 
 static float angle=0.0,ratio;
 static float x=0.0f,y=10.0f,z=50.0f;
@@ -14,6 +15,8 @@ static float lx=0.0f,ly=0.0f,lz=-1.0f;
 float d = 50;
 body body1;
 joint* toRotate;
+box box1;
+
 
 void resize(int w, int h){
 	// Prevent a divide by zero, when window is too short
@@ -40,6 +43,7 @@ void initScene()
 	glEnable(GL_DEPTH_TEST);
 	body1.init();
 	toRotate = &(body1.torso2);
+    box1 = box();
 }
 
 void display(void)
@@ -47,6 +51,7 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	body1.draw();
+    box1.draw();
 
 
 	glutSwapBuffers();
@@ -63,8 +68,8 @@ void orientMe(float ang)
 
 void moveMeFlat(int i)
 {
-	d-=i;
-	orientMe(angle);
+	y+=i;
+    orientMe(angle);
 }
 
 void processNormalKeys(unsigned char key, int x, int y)
