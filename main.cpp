@@ -9,11 +9,9 @@
 #include "body.h"
 #include "box.h"
 
-static float angle=0.0,ratio;
-static float x=0.0f,y=10.0f,z=50.0f;
-static float lx=0.0f,ly=0.0f,lz=-1.0f;
-float d = 50;
-body body1;
+float x=0.0f,y=10.0f,z=50.0f,r=50.0;
+float angle=0,ratio;
+body body1,body2;
 joint* toRotate;
 box box1;
 
@@ -41,9 +39,10 @@ void resize(int w, int h){
 void initScene()
 {
 	glEnable(GL_DEPTH_TEST);
+	body1 = body(-10,0,0,0,0,0);
 	body1.init();
 	toRotate = &(body1.torso2);
-    box1 = box();
+    box1 = box(10, 90, 0, 0, 0);
 }
 
 void display(void)
@@ -57,20 +56,6 @@ void display(void)
 	glutSwapBuffers();
 }
 
-void orientMe(float ang)
-{
-	x = d * sin(ang);
-	z = d * cos(ang);
-	glLoadIdentity();
-	gluLookAt(x, y, z, 0, 0, 0 , 0.0f, 1.0f, 0.0f);
-}
-
-
-void moveMeFlat(int i)
-{
-	y+=i;
-    orientMe(angle);
-}
 
 void processNormalKeys(unsigned char key, int x, int y)
 {
@@ -139,10 +124,31 @@ void processNormalKeys(unsigned char key, int x, int y)
 		case '9':
 			toRotate->rz += 0.5;
 			break;
+		case '8':
+			box1.rx-=1;
+			break;
+		case '2':
+			box1.rx+=1;
+			break;
 	}
 	glutPostRedisplay();
 }
 
+
+void orientMe(float ang)
+{
+	x = r * sin(ang);
+	z = r * cos(ang);
+	glLoadIdentity();
+	gluLookAt(x, y, z, 0, 0, 0 , 0.0f, 1.0f, 0.0f);
+}
+
+
+void moveMeFlat(int i)
+{
+	y-=i;
+	orientMe(angle);
+}
 
 void inputKey(int key, int x, int y)
 {
@@ -163,7 +169,6 @@ void inputKey(int key, int x, int y)
 			break;
 	}
 }
-
 
 int main(int argc, char **argv)
 {
