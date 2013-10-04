@@ -17,6 +17,7 @@ class body {
 		body(float,float,float,float,float,float);			//both end points
 
 		void init();
+		void initConstraints();
 		void draw();		//draw function
 };
 #endif

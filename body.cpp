@@ -9,33 +9,33 @@ void body::init(){
 	torso3 = bone(0.0, 5.0, 0.0,"torso3");
 	torso1 = bone(0.0, 5.0, 0.0,"torso1");
 	head = bone(0.0, 2.0, 0.0,"head");
-	thighL = bone(0.0, -4.0, 0.0,"thighL");
-	thighR = bone(0.0, -4.0, 0.0,"thighR");
+	thighL = bone(0.0, -5.0, 0.0,"thighL");
+	thighR = bone(0.0, -5.0, 0.0,"thighR");
 	legL = bone(0.0, -5.0, 0.0,"legL");
 	legR = bone(0.0, -5.0, 0.0,"legR");
-	footL = bone(1.0, 0.0, 1.0,"footL");
-	footR = bone(1.0, 0.0, 1.0,"footR");
-	uarmL = bone(0.0, -3.0, 0.0,"uarmL");
-	uarmR = bone(0.0, -3.0, 0.0,"uarmR");
-	larmL = bone(0.0, -3.0, 0.0,"larmL");
-	larmR = bone(0.0, -3.0, 0.0,"larmR");
-	handL = bone(1.0, 0.0, 1.0,"handL");
-	handR = bone(1.0, 0.0, 1.0,"handR");
+	footL = bone(0.0, -1.0, 0.0,"footL");
+	footR = bone(0.0, -1.0, 0.0,"footR");
+	uarmL = bone(0.0, -5.0, 0.0,"uarmL");
+	uarmR = bone(0.0, -5.0, 0.0,"uarmR");
+	larmL = bone(0.0, -5.0, 0.0,"larmL");
+	larmR = bone(0.0, -5.0, 0.0,"larmR");
+	handL = bone(0.0, -1.0, 0.0,"handL");
+	handR = bone(0.0, -1.0, 0.0,"handR");
 
 	torso2 = joint(0.0, 5.0, 0.0, 0.0, 0.0, 0.0, &torso1,"torso2");
 	neck = joint(0.0, 5.0, 0.0, 0.0, 0.0, 0.0, &head,"neck");
 	hipL = joint(2.0, 0.0, 0.0, 0.0, 0.0, 0.0, &thighL,"hipL");
 	hipR = joint(-2.0, 0.0, 0.0, 0.0, 0.0, 0.0, &thighR,"hipR");
-	kneeL = joint(0.0, -4.0, 0.0, 0.0, 0.0, 0.0, &legL,"kneeL");
-	kneeR = joint(0.0, -4.0, 0.0, 0.0, 0.0, 0.0, &legR,"kneeR");
+	kneeL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &legL,"kneeL");
+	kneeR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &legR,"kneeR");
 	ankleL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &footL,"footL");
 	ankleR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &footR,"footR");
 	shoulderL = joint(3.0, 5.0, 0.0, 0.0, 0.0, 0.0, &uarmL,"shoulderL");
 	shoulderR = joint(-3.0, 5.0, 0.0, 0.0, 0.0, 0.0, &uarmR,"shoulderR");
-	elbowL = joint(0.0, -3.0, 0.0, 0.0, 0.0, 0.0, &larmL,"elbowL");
-	elbowR = joint(0.0, -3.0, 0.0, 0.0, 0.0, 0.0, &larmR,"elbowR");
-	wristL = joint(0.0, -3.0, 0.0, 0.0, 0.0, 0.0, &handL,"handL");
-	wristR = joint(0.0, -3.0, 0.0, 0.0, 0.0, 0.0, &handR,"handR");
+	elbowL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &larmL,"elbowL");
+	elbowR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &larmR,"elbowR");
+	wristL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &handL,"handL");
+	wristR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &handR,"handR");
 
 	torso3.childeren.push_back(&torso2);
 	torso3.childeren.push_back(&hipL);
@@ -52,22 +52,24 @@ void body::init(){
 	larmL.childeren.push_back(&wristL);
 	larmR.childeren.push_back(&wristR);
 
+	initConstraints();
+}
 
-	torso3.name = "torso3";
-	torso1.name = "torso1";
-	head.name = "head";
-	thighL.name = "thighL";
-	thighR.name = "thighR";
-	legL.name = "legL";
-	legR.name = "legR";
-	footL.name = "footL";
-	footR.name = "footR";
-	uarmL.name = "uarmL";
-	uarmR.name = "uarmR";
-	larmL.name = "larmL";
-	larmR.name = "larmR";
-	handL.name = "handL";
-	handR.name = "handR";
+void body::initConstraints(){
+	torso2.setConstraint(-70, 70, -30, 30, -70, 70);
+	neck.setConstraint(-70, 70, -70, 70, -70, 70);
+	hipL.setConstraint(-90, 90, -10, 10, -90, 90);
+	hipR.setConstraint(-90, 90, -10, 10, -90, 90);
+	kneeL.setConstraint(0, 150, 0, 0, 0, 0);
+	kneeR.setConstraint(0, 150, 0, 0, 0, 0);
+	ankleL.setConstraint(-120, 0, -20, 20, -10, 10);
+	ankleR.setConstraint(-120, 0, -20, 20, -10, 10);
+	shoulderL.setConstraint(-150, 150, -20, 20, -50, 180);
+	shoulderR.setConstraint(-150, 150, -20, 20, -180, 50);
+	elbowL.setConstraint(0, 0, 0, 0, -170, 0);
+	elbowR.setConstraint(0, 0, 0, 0, 0, 170);
+	wristL.setConstraint(-90, 90, -20, 20, -40, 40);
+	wristR.setConstraint(-90, 90, -20, 20, -40, 40);
 }
 body::body(){
 	this->x = 0;

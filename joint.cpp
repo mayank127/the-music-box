@@ -34,7 +34,24 @@ joint::joint(float x,float y,float z,float rx,float ry,float rz,string name){
 	this->name = name;
 }
 
+void joint::setConstraint(float cxn, float cxp, float cyn, float cyp, float czn, float czp){
+	this->cxn = cxn;
+	this->cxp = cxp;
+	this->cyn = cyn;
+	this->cyp = cyp;
+	this->czn = czn;
+	this->czp = czp;
+}
+
 void joint::draw(){
+	if(cxn > rx) rx = cxn;
+	else if(cxp < rx) rx = cxp;
+
+	if(cyn > ry) ry = cyn;
+	else if(cyp < ry) ry = cyp;
+
+	if(czn > rz) rz = czn;
+	else if(czp < rz) rz = czp;
 	glPushMatrix();
 		glTranslatef(x, y, z);
 		glRotatef(rx, 1.0, 0.0, 0.0);

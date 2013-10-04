@@ -7,8 +7,9 @@ class bone;
 class joint {
 
 	public:
-		float x,y,z;
-		float rx,ry,rz;
+		float x,y,z;	//position
+		float rx,ry,rz;	//rotation
+		float cxp, cxn, cyp, cyn, czp, czn;	//rotation constraint
 		bone* child;
 		string name;
 		//constructor for joint
@@ -16,6 +17,7 @@ class joint {
 		joint();												//null constructor
 		joint(float,float,float,float,float,float,string);			//position and rotation
 
+		void setConstraint(float,float,float,float,float,float);
 		void draw();		//draw function
 };
 #endif
