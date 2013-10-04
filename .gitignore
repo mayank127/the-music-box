@@ -13,5 +13,6 @@
 *.la
 *.a
 
-#conpiled file
+#compiled file
 music-box
+*~

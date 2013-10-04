@@ -7,12 +7,14 @@
 #include "bone.h"
 #include "joint.h"
 #include "body.h"
+#include "box.h"
 
 static float angle=0.0,ratio;
 static float x=0.0f,y=10.0f,z=50.0f;
 static float lx=0.0f,ly=0.0f,lz=-1.0f;
 float d = 50;
 body body1;
+box box1;
 
 
 void resize(int w, int h){
@@ -38,7 +40,8 @@ void resize(int w, int h){
 void initScene()
 {
 	glEnable(GL_DEPTH_TEST);
-    body1.init();
+    //body1.init();
+    box1 = box();
 }
 
 void display(void)
@@ -54,7 +57,8 @@ void display(void)
 	glVertex3f( 100.0f, 0.0f,	100.0f);
 	glVertex3f( 100.0f, 0.0f, -100.0f);
 	glEnd();*/
-    body1.draw();
+    //body1.draw();
+    box1.draw();
 
 
 	glutSwapBuffers();
@@ -71,7 +75,7 @@ void orientMe(float ang)
 
 void moveMeFlat(int i)
 {
-	d-=i;
+	y+=i;
     orientMe(angle);
 }
 
