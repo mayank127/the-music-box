@@ -57,6 +57,7 @@ void joint::draw(){
 		glRotatef(rx, 1.0, 0.0, 0.0);
 		glRotatef(ry, 0.0, 1.0, 0.0);
 		glRotatef(rz, 0.0, 0.0, 1.0);
+		glCallList(muscle);
 		if(this->child!=NULL)
 			(this->child)->draw();
 	glPopMatrix();

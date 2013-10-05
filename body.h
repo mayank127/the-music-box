@@ -24,5 +24,6 @@ class body {
 	private:
 		void initMuscles();
 		void initConstraints();
+		void initJointMuscles();
 };
 #endif
