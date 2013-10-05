@@ -32,6 +32,7 @@ void bone::draw(){
 		glVertex3f(0,0,0);
 		glColor3f(0.0, 0.0, 1.0);
 		glVertex3f(x,y,z);
+		glCallList(muscle);
 	glEnd();
 	for (list<joint*>::iterator iterator = childeren.begin(), end = childeren.end(); iterator != end; ++iterator) {
 		(*iterator)->draw();

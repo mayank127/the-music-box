@@ -52,7 +52,8 @@ void body::init(){
 	larmL.childeren.push_back(&wristL);
 	larmR.childeren.push_back(&wristR);
 
-	initConstraints();
+	this->initConstraints();
+	this->initMuscles();
 }
 
 void body::initConstraints(){
@@ -70,6 +71,36 @@ void body::initConstraints(){
 	elbowR.setConstraint(0, 0, 0, 0, 0, 170);
 	wristL.setConstraint(-90, 90, -20, 20, -40, 40);
 	wristR.setConstraint(-90, 90, -20, 20, -40, 40);
+}
+void body::initMuscles(){
+	GLuint index = glGenLists(1);
+
+	// compile the display list, store a triangle in it
+	glNewList(index, GL_COMPILE);
+	    glBegin(GL_QUADS);
+	    glColor3f(0, 1, 0);
+	    glVertex3f(0,0,0);
+	    glVertex3f(0,1,0);
+	    glVertex3f(1,1,0);
+	    glVertex3f(1,0,0);
+	    glEnd();
+	glEndList();
+
+	torso3.muscle = index;
+	torso1.muscle = index;
+	head.muscle = index;
+	thighL.muscle = index;
+	thighR.muscle = index;
+	legL.muscle = index;
+	legR.muscle = index;
+	footL.muscle = index;
+	footR.muscle = index;
+	uarmL.muscle = index;
+	uarmR.muscle = index;
+	larmL.muscle = index;
+	larmR.muscle = index;
+	handL.muscle = index;
+	handR.muscle = index;
 }
 body::body(){
 	this->x = 0;

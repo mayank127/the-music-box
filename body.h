@@ -3,6 +3,9 @@
 
 #include "bone.h"
 #include "joint.h"
+
+#include <GL/gl.h>
+#include <GL/glut.h>
 using namespace std;
 
 //Class for body object
@@ -17,7 +20,9 @@ class body {
 		body(float,float,float,float,float,float);			//both end points
 
 		void init();
-		void initConstraints();
 		void draw();		//draw function
+	private:
+		void initMuscles();
+		void initConstraints();
 };
 #endif
