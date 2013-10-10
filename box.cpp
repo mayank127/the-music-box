@@ -47,7 +47,6 @@ void box::createDL(){
 void box::draw(){
 	glPushMatrix();
 		glTranslatef(x,y,z);
-		glEnable( GL_TEXTURE_2D );
 
 		glBindTexture( GL_TEXTURE_2D, this->texture );
 		//front

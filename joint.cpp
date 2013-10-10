@@ -12,6 +12,8 @@ joint::joint(float x,float y,float z,float rx,float ry,float rz, bone* child, st
 	this->rz = rz;
 	this->child = child;
 	this->name = name;
+	this->muscle = 0;
+	this->texture = 0;
 }
 joint::joint(){
 	this->x = 0;
@@ -22,6 +24,8 @@ joint::joint(){
 	this->rz = 0;
 	this->child = NULL;
 	this->name = "";
+	this->muscle = 0;
+	this->texture = 0;
 }
 joint::joint(float x,float y,float z,float rx,float ry,float rz,string name){
 	this->x = x;
@@ -41,6 +45,8 @@ void joint::setConstraint(float cxn, float cxp, float cyn, float cyp, float czn,
 	this->cyp = cyp;
 	this->czn = czn;
 	this->czp = czp;
+	this->muscle = 0;
+	this->texture = 0;
 }
 
 void joint::draw(){
@@ -57,6 +63,7 @@ void joint::draw(){
 		glRotatef(rx, 1.0, 0.0, 0.0);
 		glRotatef(ry, 0.0, 1.0, 0.0);
 		glRotatef(rz, 0.0, 0.0, 1.0);
+		glBindTexture(GL_TEXTURE_2D, this->texture);
 		glCallList(muscle);
 		if(this->child!=NULL)
 			(this->child)->draw();

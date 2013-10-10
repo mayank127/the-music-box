@@ -10,6 +10,8 @@ bone::bone(float x,float y,float z, string name){
 	this->z = z;
 	this->childeren = childeren;
 	this->name = name;
+	this->muscle = 0;
+	this->texture = 0;
 }
 bone::bone(float x,float y,float z,list<joint*> childeren,string name){
 	this->x = x;
@@ -17,6 +19,8 @@ bone::bone(float x,float y,float z,list<joint*> childeren,string name){
 	this->z = z;
 	this->childeren = childeren;
 	this->name = name;
+	this->muscle = 0;
+	this->texture = 0;
 }
 bone::bone(){
 	this->x = 0;
@@ -24,6 +28,8 @@ bone::bone(){
 	this->z = 0;
 	this->childeren = list<joint*>();
 	name = "";
+	this->muscle = 0;
+	this->texture = 0;
 }
 
 void bone::draw(){

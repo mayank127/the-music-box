@@ -14,7 +14,7 @@ class joint {
 		float cxp, cxn, cyp, cyn, czp, czn;	//rotation constraint
 		bone* child;
 		string name;
-		GLuint muscle;
+		GLuint muscle, texture;
 		//constructor for joint
 		joint(float,float,float,float,float,float,bone*,string); //position, rotation and child bone
 		joint();												//null constructor

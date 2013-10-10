@@ -37,6 +37,70 @@ void resize(int w, int h){
 	gluLookAt(x, y, z, 0, 0, 0 , 0.0f, 1.0f, 0.0f);
 }
 
+
+void initTexture2(){
+	GLuint jeans_tex = SOIL_load_OGL_texture
+	(
+	  "images/jeans.jpeg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	GLuint shirt_tex = SOIL_load_OGL_texture
+	(
+	  "images/shirt2.jpeg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	GLuint skin_tex = SOIL_load_OGL_texture
+	(
+	  "images/skin.jpeg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	
+	
+	body2.torso3.texture = shirt_tex; 
+	body2.torso1.texture = shirt_tex;
+	body2.head.texture = SOIL_load_OGL_texture
+	(
+	  "images/face.png",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	body2.thighL.texture = jeans_tex;
+	body2.thighR.texture = jeans_tex;
+	body2.legL.texture = jeans_tex;
+	body2.legR.texture = jeans_tex;
+	body2.footL.texture = skin_tex;
+	body2.footR.texture = skin_tex;
+	body2.uarmL.texture = shirt_tex;
+	body2.uarmR.texture = shirt_tex;
+	body2.larmL.texture = skin_tex;
+	body2.larmR.texture = skin_tex;
+	body2.handL.texture = skin_tex;
+	body2.handR.texture = skin_tex;
+	
+	body2.torso2.texture = shirt_tex; 
+	body2.neck.texture = skin_tex; 
+	body2.hipL.texture = jeans_tex; 
+	body2.hipR.texture = jeans_tex; 
+	body2.kneeL.texture = jeans_tex; 
+	body2.kneeR.texture = jeans_tex; 
+	body2.ankleL.texture = jeans_tex; 
+	body2.ankleR.texture = jeans_tex; 
+	body2.shoulderL.texture = shirt_tex; 
+	body2.shoulderR.texture = shirt_tex; 
+	body2.elbowL.texture = skin_tex; 
+	body2.elbowR.texture = skin_tex; 
+	body2.wristL.texture = skin_tex; 
+	body2.wristR.texture = skin_tex; 
+
+}
+
 void initScene()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -44,28 +108,28 @@ void initScene()
 	body1.init();
 	toRotate = &(body1.torso2);
 	box1 = box(10, 90, 0, 0, 0);
+	body2 = body(20,0,0,0,0,0);
+	body2.init();
+	initTexture2();
+
 	GLuint wood_tex = SOIL_load_OGL_texture
-	(
-	  "images/a.jpg",
-	  SOIL_LOAD_AUTO,
-	  SOIL_CREATE_NEW_ID,
-	  SOIL_FLAG_INVERT_Y
-	);
-	GLuint wood_tex2 = SOIL_load_OGL_texture
 	(
 	  "images/wood.jpg",
 	  SOIL_LOAD_AUTO,
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
-	box1.texture = wood_tex2;
+	box1.texture = wood_tex;
 	//body1.texture = wood_tex2;
 }
+
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable( GL_TEXTURE_2D );
 	body1.draw();
+	body2.draw();
 	box1.draw();
 
 

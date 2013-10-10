@@ -28,8 +28,8 @@ void body::init(){
 	hipR = joint(-1.8, 0.0, 0.0, 0.0, 0.0, 0.0, &thighR,"hipR");
 	kneeL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &legL,"kneeL");
 	kneeR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &legR,"kneeR");
-	ankleL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &footL,"footL");
-	ankleR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &footR,"footR");
+	ankleL = joint(0.0, -5.0, 0.0, -90.0, 0.0, 0.0, &footL,"footL");
+	ankleR = joint(0.0, -5.0, 0.0, -90.0, 0.0, 0.0, &footR,"footR");
 	shoulderL = joint(3.0, 4.0, 0.0, 0.0, 0.0, 0.0, &uarmL,"shoulderL");
 	shoulderR = joint(-3.0, 4.0, 0.0, 0.0, 0.0, 0.0, &uarmR,"shoulderR");
 	elbowL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &larmL,"elbowL");
@@ -80,6 +80,7 @@ void body::initMuscles(){
 	GLUquadricObj *quadratic;
 	quadratic = gluNewQuadric();
 	gluQuadricTexture(quadratic, true);
+	gluQuadricDrawStyle(quadratic, GLU_FILL);
 
 	torso3.muscle = glGenLists(1);
 
@@ -88,6 +89,7 @@ void body::initMuscles(){
 		glTranslatef(0.0, 0.5, 0.0);
 		glRotatef(-90.0, 1.0, 0.0, 0.0);
 		gluCylinder(quadratic,2.3f,2.1f,4.0f,32,32);
+		gluDisk(quadratic,0.0f,2.3f,32,32);
 		glPopMatrix();
 	glEndList();
 
@@ -97,14 +99,17 @@ void body::initMuscles(){
 		glTranslatef(0.0, 0.5, 0.0);
 		glRotatef(-90.0, 1.0, 0.0, 0.0);
 		gluCylinder(quadratic,2.1f,2.5f,4.0f,32,32);
+		glTranslatef(0.0, 0.0, 4.0);
+		gluDisk(quadratic,0.0f,2.5f,32,32);
 		glPopMatrix();
 	glEndList();
 	head.muscle = glGenLists(1);
 	glNewList(head.muscle, GL_COMPILE);
 		glPushMatrix();
-		glTranslatef(0.0, 0.5, 0.0);
+		glTranslatef(0.0, 1.5, 0.0);
 		glRotatef(-90.0, 1.0, 0.0, 0.0);
-		gluCylinder(quadratic,1.1f,1.3f,2.0f,32,32);
+		//glRotatef(90.0, 0.0, 1.0, 0.0);
+		gluSphere(quadratic,1.5f,32,32);
 		glPopMatrix();
 	glEndList();
 	thighL.muscle = glGenLists(1);
@@ -209,10 +214,11 @@ void body::initJointMuscles(){
 
 	GLUquadricObj *quadratic;
 	quadratic = gluNewQuadric();
+	gluQuadricTexture(quadratic, true);
 	torso2.muscle = glGenLists(1);
 	glNewList(torso2.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,2.0f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -220,15 +226,17 @@ void body::initJointMuscles(){
 	neck.muscle = glGenLists(1);
 	glNewList(neck.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
-		gluSphere(quadratic,1.1f,32,32);
+		glColor3f(1.0, 1.0, 1.0);
+		glTranslatef(0.0, 0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.8f,0.8f,2.0f,32,32);
 		glPopMatrix();
 	glEndList();
 
 	hipL.muscle = glGenLists(1);
 	glNewList(hipL.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.6f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -236,7 +244,7 @@ void body::initJointMuscles(){
 	hipR.muscle = glGenLists(1);
 	glNewList(hipR.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.6f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -244,7 +252,7 @@ void body::initJointMuscles(){
 	kneeL.muscle = glGenLists(1);
 	glNewList(kneeL.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -252,7 +260,7 @@ void body::initJointMuscles(){
 	kneeR.muscle = glGenLists(1);
 	glNewList(kneeR.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -260,7 +268,7 @@ void body::initJointMuscles(){
 	ankleL.muscle = glGenLists(1);
 	glNewList(ankleL.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -268,7 +276,7 @@ void body::initJointMuscles(){
 	ankleR.muscle = glGenLists(1);
 	glNewList(ankleR.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -276,7 +284,7 @@ void body::initJointMuscles(){
 	shoulderL.muscle = glGenLists(1);
 	glNewList(shoulderL.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.6f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -284,7 +292,7 @@ void body::initJointMuscles(){
 	shoulderR.muscle = glGenLists(1);
 	glNewList(shoulderR.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.6f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -292,7 +300,7 @@ void body::initJointMuscles(){
 	elbowL.muscle = glGenLists(1);
 	glNewList(elbowL.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -300,7 +308,7 @@ void body::initJointMuscles(){
 	elbowR.muscle = glGenLists(1);
 	glNewList(elbowR.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -308,7 +316,7 @@ void body::initJointMuscles(){
 	wristL.muscle = glGenLists(1);
 	glNewList(wristL.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
@@ -316,20 +324,73 @@ void body::initJointMuscles(){
 	wristR.muscle = glGenLists(1);
 	glNewList(wristR.muscle, GL_COMPILE);
 		glPushMatrix();
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(1.0, 1.0, 1.0);
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
 }
 
 void body::initTexture(){
-	torso3.texture = SOIL_load_OGL_texture
+	GLuint jeans_tex = SOIL_load_OGL_texture
 	(
-	  "images/a.jpg",
+	  "images/jeans.jpeg",
 	  SOIL_LOAD_AUTO,
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
+	GLuint shirt_tex = SOIL_load_OGL_texture
+	(
+	  "images/shirt.jpeg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	GLuint skin_tex = SOIL_load_OGL_texture
+	(
+	  "images/skin.jpeg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	
+	
+	torso3.texture = shirt_tex; 
+	torso1.texture = shirt_tex;
+	head.texture = SOIL_load_OGL_texture
+	(
+	  "images/face.jpeg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	thighL.texture = jeans_tex;
+	thighR.texture = jeans_tex;
+	legL.texture = jeans_tex;
+	legR.texture = jeans_tex;
+	footL.texture = skin_tex;
+	footR.texture = skin_tex;
+	uarmL.texture = shirt_tex;
+	uarmR.texture = shirt_tex;
+	larmL.texture = skin_tex;
+	larmR.texture = skin_tex;
+	handL.texture = skin_tex;
+	handR.texture = skin_tex;
+	
+	torso2.texture = shirt_tex; 
+	neck.texture = skin_tex; 
+	hipL.texture = jeans_tex; 
+	hipR.texture = jeans_tex; 
+	kneeL.texture = jeans_tex; 
+	kneeR.texture = jeans_tex; 
+	ankleL.texture = jeans_tex; 
+	ankleR.texture = jeans_tex; 
+	shoulderL.texture = shirt_tex; 
+	shoulderR.texture = shirt_tex; 
+	elbowL.texture = skin_tex; 
+	elbowR.texture = skin_tex; 
+	wristL.texture = skin_tex; 
+	wristR.texture = skin_tex; 
+
 
 }
 

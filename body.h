@@ -15,7 +15,6 @@ class body {
 		float rx,ry,rz;
 		bone torso3, torso1, head, thighL, thighR, legL, legR, footL, footR, uarmL, uarmR, larmL, larmR, handL, handR;
 		joint torso2, neck, hipL, hipR, kneeL, kneeR, ankleL, ankleR, shoulderL, shoulderR, elbowL, elbowR, wristL, wristR;
-		GLuint texture;
 		//constructor for body
 		body();												//null constructor
 		body(float,float,float,float,float,float);			//both end points
