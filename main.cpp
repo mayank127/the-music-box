@@ -4,6 +4,7 @@
 #include <cmath>
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include "SOIL.h"
 #include "bone.h"
 #include "joint.h"
 #include "body.h"
@@ -42,15 +43,30 @@ void initScene()
 	body1 = body(-10,0,0,0,0,0);
 	body1.init();
 	toRotate = &(body1.torso2);
-    box1 = box(10, 90, 0, 0, 0);
+	box1 = box(10, 90, 0, 0, 0);
+	GLuint wood_tex = SOIL_load_OGL_texture
+	(
+	  "images/a.jpg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	GLuint wood_tex2 = SOIL_load_OGL_texture
+	(
+	  "images/wood.jpg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	box1.texture = wood_tex2;
+	//body1.texture = wood_tex2;
 }
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	body1.draw();
-    box1.draw();
+	box1.draw();
 
 
 	glutSwapBuffers();

@@ -8,7 +8,7 @@ using namespace std;
 //Class for box object
 class box {
 	public:
-		GLuint boxDL;
+		GLuint boxDL,texture;
 		float size;
 		float rx,x,y,z;
 		//constructor for box

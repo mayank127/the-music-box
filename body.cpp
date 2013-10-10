@@ -2,7 +2,7 @@
 
 #include <GL/gl.h>
 #include <GL/glut.h>
-
+#include "SOIL.h"
 #include <iostream>
 
 void body::init(){
@@ -55,6 +55,7 @@ void body::init(){
 	this->initConstraints();
 	this->initMuscles();
 	this->initJointMuscles();
+	this->initTexture();
 }
 
 void body::initConstraints(){
@@ -77,246 +78,259 @@ void body::initConstraints(){
 void body::initMuscles(){
 
 	GLUquadricObj *quadratic;
-    quadratic = gluNewQuadric();
+	quadratic = gluNewQuadric();
+	gluQuadricTexture(quadratic, true);
+
 	torso3.muscle = glGenLists(1);
+
 	glNewList(torso3.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, 0.5, 0.0);
-	    glRotatef(-90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,2.3f,2.1f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, 0.5, 0.0);
+		glRotatef(-90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,2.3f,2.1f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	torso1.muscle = glGenLists(1);
 	glNewList(torso1.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, 0.5, 0.0);
-	    glRotatef(-90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,2.1f,2.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, 0.5, 0.0);
+		glRotatef(-90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,2.1f,2.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	head.muscle = glGenLists(1);
 	glNewList(head.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, 0.5, 0.0);
-	    glRotatef(-90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,1.1f,1.3f,2.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, 0.5, 0.0);
+		glRotatef(-90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,1.1f,1.3f,2.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	thighL.muscle = glGenLists(1);
 	glNewList(thighL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	thighR.muscle = glGenLists(1);
 	glNewList(thighR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	legL.muscle = glGenLists(1);
 	glNewList(legL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	legR.muscle = glGenLists(1);
 	glNewList(legR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	footL.muscle = glGenLists(1);
 	glNewList(footL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.2, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.2, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
+		glPopMatrix();
 	glEndList();
 	footR.muscle = glGenLists(1);
 	glNewList(footR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.2, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.2, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
+		glPopMatrix();
 	glEndList();
 	uarmL.muscle = glGenLists(1);
 	glNewList(uarmL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	uarmR.muscle = glGenLists(1);
 	glNewList(uarmR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.6f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	larmL.muscle = glGenLists(1);
 	glNewList(larmL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	larmR.muscle = glGenLists(1);
 	glNewList(larmR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.5, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,4.0f,32,32);
+		glPopMatrix();
 	glEndList();
 	handL.muscle = glGenLists(1);
 	glNewList(handL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.2, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.2, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
+		glPopMatrix();
 	glEndList();
 	handR.muscle = glGenLists(1);
 	glNewList(handR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glTranslatef(0.0, -0.2, 0.0);
-	    glRotatef(90.0, 1.0, 0.0, 0.0);
-	    gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -0.2, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
+		glPopMatrix();
 	glEndList();
 }
 
 void body::initJointMuscles(){
 
 	GLUquadricObj *quadratic;
-    quadratic = gluNewQuadric();
+	quadratic = gluNewQuadric();
 	torso2.muscle = glGenLists(1);
 	glNewList(torso2.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,2.0f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,2.0f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	neck.muscle = glGenLists(1);
 	glNewList(neck.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,1.1f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,1.1f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	hipL.muscle = glGenLists(1);
 	glNewList(hipL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.6f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.6f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	hipR.muscle = glGenLists(1);
 	glNewList(hipR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.6f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.6f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	kneeL.muscle = glGenLists(1);
 	glNewList(kneeL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	kneeR.muscle = glGenLists(1);
 	glNewList(kneeR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	ankleL.muscle = glGenLists(1);
 	glNewList(ankleL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	ankleR.muscle = glGenLists(1);
 	glNewList(ankleR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	shoulderL.muscle = glGenLists(1);
 	glNewList(shoulderL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.6f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.6f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	shoulderR.muscle = glGenLists(1);
 	glNewList(shoulderR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.6f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.6f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	elbowL.muscle = glGenLists(1);
 	glNewList(elbowL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	elbowR.muscle = glGenLists(1);
 	glNewList(elbowR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	wristL.muscle = glGenLists(1);
 	glNewList(wristL.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+
 	wristR.muscle = glGenLists(1);
 	glNewList(wristR.muscle, GL_COMPILE);
-	    glPushMatrix();
-	    glColor3f(1.0, 0.0, 0.0);
-	    gluSphere(quadratic,0.5f,32,32);
-	    glPopMatrix();
+		glPushMatrix();
+		glColor3f(1.0, 0.0, 0.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
 	glEndList();
-	
+}
+
+void body::initTexture(){
+	torso3.texture = SOIL_load_OGL_texture
+	(
+	  "images/a.jpg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+
 }
 
 body::body(){

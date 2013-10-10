@@ -14,7 +14,7 @@ class bone {
 		float x,y,z;
 		list<joint*> childeren;
 		string name;
-		GLuint muscle;
+		GLuint muscle, texture;
 		//constructor for bone
 		bone(float,float,float,list<joint*>,string); //points and childeren joint
 		bone();												//null constructor

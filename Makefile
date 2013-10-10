@@ -12,7 +12,7 @@ PROJECT_ROOT=.
 SRCDIR = $(PROJECT_ROOT)
 OBJDIR = $(PROJECT_ROOT)/obj
 
-LIBS = -lGL -lGLU -lglut -g
+LIBS = -I SOIL/src -L ./SOIL/lib/ -lSOIL -lGL -lGLU -lglut -g
 TARGET = music-box
 
 SRCS := $(wildcard $(SRCDIR)/*.cpp)
@@ -21,11 +21,16 @@ OBJS := $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 .PHONY: all setup clean distclean
 
-all: setup $(TARGET)
+all: setup ./SOIL/lib/libSOIL.a $(TARGET)
 
 setup:
 	@$(ECHO) "Setting up compilation.."
 	@mkdir -p obj
+
+./SOIL/lib/libSOIL.a:
+	@$(ECHO) "Setting up libSOIL.a"
+	@cd ./SOIL/; make
+	@$(ECHO) "Done..!!"
 
 $(TARGET): $(OBJS)
 	@$(ECHO) "Building executable..."
@@ -45,4 +50,5 @@ clean:
 distclean:
 	@$(ECHO) -n "Cleaning up.."
 	@$(RM) -rf $(OBJDIR) *~  $(TARGET)
+	@cd ./SOIL/ ; make clean
 	@$(ECHO) "Done"

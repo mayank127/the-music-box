@@ -28,11 +28,13 @@ bone::bone(){
 
 void bone::draw(){
 	glBegin(GL_LINES);
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3f(0.0, 0.0, 0.0);
 		glVertex3f(0,0,0);
 		glColor3f(0.0, 0.0, 1.0);
 		glVertex3f(x,y,z);
 	glEnd();
+	glColor3f(1.0,1.0,1.0);
+	glBindTexture(GL_TEXTURE_2D, this->texture);
 	glCallList(muscle);
 	for (list<joint*>::iterator iterator = childeren.begin(), end = childeren.end(); iterator != end; ++iterator) {
 		(*iterator)->draw();
