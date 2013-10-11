@@ -9,6 +9,8 @@
 #include "joint.h"
 #include "body.h"
 #include "box.h"
+#include <iostream>
+using namespace std;
 
 float x=0.0f,y=10.0f,z=50.0f,r=50.0;
 float angle=0,ratio;
@@ -102,6 +104,36 @@ void initTexture2(){
 
 }
 
+void printHelp(){
+	cout<<"Here are the controls...\n";
+	cout<<"Arrow keys to move your camera\n";
+	cout<<"2 - Close Box\t\t";
+	cout<<"8 - Open Box"<<endl<<endl;
+
+	cout<<"5 - Switch Body"<<endl;
+	cout<<"1 - Rotate x -\t\t";
+	cout<<"3 - Rotate x +"<<endl;
+	cout<<"4 - Rotate y -\t\t";
+	cout<<"6 - Rotate y +"<<endl;
+	cout<<"7 - Rotate z -\t\t";
+	cout<<"9 - Rotate x +"<<endl<<endl;
+
+	cout<<"n - Neck"<<endl;
+	cout<<"t - Torso"<<endl;
+	cout<<"h - Hip Left\t\t";
+	cout<<"H - Hip Right"<<endl;
+	cout<<"k - Knee Left\t\t";
+	cout<<"K - Knee Right"<<endl;
+	cout<<"a - Ankle Left\t\t";
+	cout<<"A - Ankle Right"<<endl;
+	cout<<"s - Shoulder L\t\t";
+	cout<<"S - Shoulder R"<<endl;
+	cout<<"e - Elbow Left\t\t";
+	cout<<"E - Elbow Right"<<endl;
+	cout<<"w - Wrist Left\t\t";
+	cout<<"W - Wrist Right"<<endl;
+}
+
 void initScene()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -114,16 +146,15 @@ void initScene()
 	body2 = body(20,0,0,0,0,0);
 	body2.init();
 	initTexture2();
+	printHelp();
 
-	GLuint wood_tex = SOIL_load_OGL_texture
+	box1.texture = SOIL_load_OGL_texture
 	(
 	  "images/wood.jpg",
 	  SOIL_LOAD_AUTO,
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
-	box1.texture = wood_tex;
-	//bs->texture = wood_tex2;
 }
 
 
@@ -145,46 +176,60 @@ void processNormalKeys(unsigned char key, int x, int y)
 		case 'n':
 		case 'N':
 			toRotate = &(bs->neck);
+			cout<<"\nNeck Activated...!!!\n";
 			break;
 		case 't':
 		case 'T':
 			toRotate = &(bs->torso2);
+			cout<<"\nTorso Activated...!!!\n";
 			break;
 		case 'h':
 			toRotate = &(bs->hipL);
+			cout<<"\nHip Left Activated...!!!\n";
 			break;
 		case 'H':
 			toRotate = &(bs->hipR);
+			cout<<"\nHip Right Activated...!!!\n";
 			break;
 		case 'k':
 			toRotate = &(bs->kneeL);
+			cout<<"\nKnee Left Activated...!!!\n";
 			break;
 		case 'K':
 			toRotate = &(bs->kneeR);
+			cout<<"\nKnee Right Activated...!!!\n";
 			break;
 		case 'a':
 			toRotate = &(bs->ankleL);
+			cout<<"\nAnkle Left Activated...!!!\n";
 			break;
 		case 'A':
 			toRotate = &(bs->ankleR);
+			cout<<"\nAnkle Right Activated...!!!\n";
 			break;
 		case 's':
 			toRotate = &(bs->shoulderL);
+			cout<<"\nShoulder Left Activated...!!!\n";
 			break;
 		case 'S':
 			toRotate = &(bs->shoulderR);
+			cout<<"\nShoulder Right Activated...!!!\n";
 			break;
 		case 'e':
 			toRotate = &(bs->elbowL);
+			cout<<"\nElbow Left Activated...!!!\n";
 			break;
 		case 'E':
 			toRotate = &(bs->elbowR);
+			cout<<"\nElbow Right Activated...!!!\n";
 			break;
 		case 'w':
 			toRotate = &(bs->wristL);
+			cout<<"\nWrist Left Activated...!!!\n";
 			break;
 		case 'W':
 			toRotate = &(bs->wristR);
+			cout<<"\nWrist Right Activated...!!!\n";
 			break;
 		case '1':
 			toRotate->rx -= 0.5;
@@ -211,10 +256,15 @@ void processNormalKeys(unsigned char key, int x, int y)
 			box1.rx+=1;
 			break;
 		case '5':
-			if(bs==&(body1))
+			if(bs==&(body1)){
 				bs = &(body2);
-			else
+				cout<<"\nBody 2 Activated...!!!\n";
+			}
+			else{
 				bs = &(body1);
+				cout<<"\nBody 1 Activated...!!!\n";
+			}
+			toRotate = &(bs->torso2);
 			break;
 	}
 	glutPostRedisplay();
@@ -264,8 +314,8 @@ int main(int argc, char **argv)
 	glutInitWindowSize(640,360);
 	glutCreateWindow("Music Box 3D");
 
+	cout<<"Welcome to Music Box 3D...!!!\n";
 	initScene();
-
 	glutKeyboardFunc(processNormalKeys);
 	glutSpecialFunc(inputKey);
 
