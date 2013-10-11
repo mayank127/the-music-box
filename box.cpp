@@ -2,8 +2,9 @@
 #include <iostream>
 #include "box.h"
 
-box::box(float size, float rx, float x, float y, float z){
-	this->size = size;
+box::box(float size1, float size2, float rx, float x, float y, float z){
+	this->size1 = size1;
+	this->size2 = size2;
 	this->rx = rx;
 	this->x= x;
 	this->y= y;
@@ -13,34 +14,85 @@ box::box(float size, float rx, float x, float y, float z){
 }
 
 box::box(){
-	this->size = 10;
+	this->size1 = 10;
+	this->size2 = 6;
 	this->rx = 90;
 	this->x= 0;
 	this->y= 0;
 	this->z= 0;
 }
 
-
-void box::createDL(){
-
-	// Create the id for the list
-	boxDL = glGenLists(1);
-	// start list
-	glNewList(boxDL,GL_COMPILE);
-	// call the function that contains the rendering commands
+void box::createSide(float size1, float size2){
 	glBegin(GL_QUADS);
 		glTexCoord2d(0.0,0.0);
 		glVertex3f(0.0, 0.0, 0.0);
 		glTexCoord2d(1.0,0.0);
-		glVertex3f(size, 0.0, 0.0);
+		glVertex3f(size1, 0.0, 0.0);
 		glTexCoord2d(1.0,1.0);
-		glVertex3f(size, size, 0.0);
+		glVertex3f(size1, size2, 0.0);
 		glTexCoord2d(0.0,1.0);
-		glVertex3f(0.0, size, 0.0);
-	glEnd();
+		glVertex3f(0.0, size2, 0.0);
 
-	// endList
+		glTexCoord2d(0.0,0.0);
+		glVertex3f(0.0, 0.0, 1.0);
+		glTexCoord2d(1.0,0.0);
+		glVertex3f(size1, 0.0, 1.0);
+		glTexCoord2d(1.0,1.0);
+		glVertex3f(size1, size2, 1.0);
+		glTexCoord2d(0.0,1.0);
+		glVertex3f(0.0, size2, 1.0);
+
+		glTexCoord2d(0.0,0.0);
+		glVertex3f(0.0, size2, 0.0);
+		glTexCoord2d(1.0,0.0);
+		glVertex3f(0.0, size2, 1.0);
+		glTexCoord2d(1.0,1.0);
+		glVertex3f(size1, size2, 1.0);
+		glTexCoord2d(0.0,1.0);
+		glVertex3f(size1, size2, 0.0);
+
+		glTexCoord2d(0.0,0.0);
+		glVertex3f(0.0, 0.0, 0.0);
+		glTexCoord2d(1.0,0.0);
+		glVertex3f(0.0, 0.0, 1.0);
+		glTexCoord2d(1.0,1.0);
+		glVertex3f(size1, 0.0, 1.0);
+		glTexCoord2d(0.0,1.0);
+		glVertex3f(size1, 0, 0.0);
+
+		glTexCoord2d(0.0,0.0);
+		glVertex3f(size1, 0.0, 1.0);
+		glTexCoord2d(1.0,0.0);
+		glVertex3f(size1, 0.0, 0.0);
+		glTexCoord2d(1.0,1.0);
+		glVertex3f(size1, size2, 0.0);
+		glTexCoord2d(0.0,1.0);
+		glVertex3f(size1, size2, 1.0);
+
+		glTexCoord2d(0.0,0.0);
+		glVertex3f(0.0, size2, 1.0);
+		glTexCoord2d(1.0,0.0);
+		glVertex3f(0.0, 0.0, 1.0);
+		glTexCoord2d(1.0,1.0);
+		glVertex3f(0.0, 0.0, 0.0);
+		glTexCoord2d(0.0,1.0);
+		glVertex3f(0.0, size2, 0.0);
+	glEnd();
+}
+void box::createDL(){
+
+	boxDL11 = glGenLists(1);
+	glNewList(boxDL11,GL_COMPILE);
+		createSide(size1,size1);
 	glEndList();
+
+	boxDL12 = glGenLists(1);
+	glNewList(boxDL12,GL_COMPILE);
+		createSide(size1,size2);
+	glEndList();
+
+
+
 }
 
 
@@ -51,42 +103,37 @@ void box::draw(){
 		glBindTexture( GL_TEXTURE_2D, this->texture );
 		//front
 		glColor3f(1.0, 1.0, 1.0);
-		glCallList(boxDL);
+		glCallList(boxDL12);
 		//below
 		glPushMatrix();
 			glRotatef(-90, 1.0, 0.0, 0.0);
-			//glColor3f(1.0, 0.0, 0.0);
-			glCallList(boxDL);
-		glPopMatrix();
-		//top
-		glPushMatrix();
-			glTranslatef(0.0, size, 0.0);
-			glTranslatef(0.0, 0.0 , -size);
-			if(rx>90) rx = 90;
-			else if(rx<0) rx = 0;
-			glRotatef(rx, 1.0, 0.0, 0.0);
-			//glColor3f(1.0, 1.0, 0.0);
-			glCallList(boxDL);
+			glCallList(boxDL11);
 		glPopMatrix();
 		//left
 		glPushMatrix();
 			glRotatef(90, 0.0, 1.0, 0.0);
-			//glColor3f(0.0, 1.0, 0.0);
-			glCallList(boxDL);
+			glCallList(boxDL12);
 		glPopMatrix();
 		//right
 		glPushMatrix();
-			glTranslatef(size, 0.0, 0.0);
+			glTranslatef(size1-1, 0.0, 0.0);
 			glRotatef(90, 0.0, 1.0, 0.0);
-			//glColor3f(0.0, 1.0, 0.0);
-			glCallList(boxDL);
+			glCallList(boxDL12);
 		glPopMatrix();
+
 		//back
 		glPushMatrix();
-			//glColor3f(0.0, 0.0, 1.0);
-			glTranslatef( 0.0, 0.0, -size);
-			glCallList(boxDL);
+			glTranslatef( 0.0, 0.0, -size1);
+			glCallList(boxDL12);
 		glPopMatrix();
-		//glDisable(GL_TEXTURE_2D);
+
+		//top
+		glPushMatrix();
+			glTranslatef(0.0, size2, -size1);
+			if(rx>90) rx = 90;
+			else if(rx<0) rx = 0;
+			glRotatef(rx, 1.0, 0.0, 0.0);
+			glCallList(boxDL11);
+		glPopMatrix();
 	glPopMatrix();
 }

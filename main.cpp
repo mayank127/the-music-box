@@ -15,6 +15,7 @@ float angle=0,ratio;
 body body1,body2;
 joint* toRotate;
 box box1;
+body* bs;
 
 
 void resize(int w, int h){
@@ -60,9 +61,9 @@ void initTexture2(){
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
-	
-	
-	body2.torso3.texture = shirt_tex; 
+
+
+	body2.torso3.texture = shirt_tex;
 	body2.torso1.texture = shirt_tex;
 	body2.head.texture = SOIL_load_OGL_texture
 	(
@@ -83,31 +84,33 @@ void initTexture2(){
 	body2.larmR.texture = skin_tex;
 	body2.handL.texture = skin_tex;
 	body2.handR.texture = skin_tex;
-	
-	body2.torso2.texture = shirt_tex; 
-	body2.neck.texture = skin_tex; 
-	body2.hipL.texture = jeans_tex; 
-	body2.hipR.texture = jeans_tex; 
-	body2.kneeL.texture = jeans_tex; 
-	body2.kneeR.texture = jeans_tex; 
-	body2.ankleL.texture = jeans_tex; 
-	body2.ankleR.texture = jeans_tex; 
-	body2.shoulderL.texture = shirt_tex; 
-	body2.shoulderR.texture = shirt_tex; 
-	body2.elbowL.texture = skin_tex; 
-	body2.elbowR.texture = skin_tex; 
-	body2.wristL.texture = skin_tex; 
-	body2.wristR.texture = skin_tex; 
+
+	body2.torso2.texture = shirt_tex;
+	body2.neck.texture = skin_tex;
+	body2.hipL.texture = jeans_tex;
+	body2.hipR.texture = jeans_tex;
+	body2.kneeL.texture = jeans_tex;
+	body2.kneeR.texture = jeans_tex;
+	body2.ankleL.texture = jeans_tex;
+	body2.ankleR.texture = jeans_tex;
+	body2.shoulderL.texture = shirt_tex;
+	body2.shoulderR.texture = shirt_tex;
+	body2.elbowL.texture = skin_tex;
+	body2.elbowR.texture = skin_tex;
+	body2.wristL.texture = skin_tex;
+	body2.wristR.texture = skin_tex;
 
 }
 
 void initScene()
 {
 	glEnable(GL_DEPTH_TEST);
+	glEnable( GL_TEXTURE_2D );
 	body1 = body(-10,0,0,0,0,0);
 	body1.init();
-	toRotate = &(body1.torso2);
-	box1 = box(10, 90, 0, 0, 0);
+	bs = &(body1);
+	toRotate = &(bs->torso2);
+	box1 = box(10, 6, 90, 0, 0, 0);
 	body2 = body(20,0,0,0,0,0);
 	body2.init();
 	initTexture2();
@@ -120,19 +123,16 @@ void initScene()
 	  SOIL_FLAG_INVERT_Y
 	);
 	box1.texture = wood_tex;
-	//body1.texture = wood_tex2;
+	//bs->texture = wood_tex2;
 }
 
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable( GL_TEXTURE_2D );
 	body1.draw();
 	body2.draw();
 	box1.draw();
-
-
 	glutSwapBuffers();
 }
 
@@ -144,47 +144,47 @@ void processNormalKeys(unsigned char key, int x, int y)
 			exit(0);
 		case 'n':
 		case 'N':
-			toRotate = &(body1.neck);
+			toRotate = &(bs->neck);
 			break;
 		case 't':
 		case 'T':
-			toRotate = &(body1.torso2);
+			toRotate = &(bs->torso2);
 			break;
 		case 'h':
-			toRotate = &(body1.hipL);
+			toRotate = &(bs->hipL);
 			break;
 		case 'H':
-			toRotate = &(body1.hipR);
+			toRotate = &(bs->hipR);
 			break;
 		case 'k':
-			toRotate = &(body1.kneeL);
+			toRotate = &(bs->kneeL);
 			break;
 		case 'K':
-			toRotate = &(body1.kneeR);
+			toRotate = &(bs->kneeR);
 			break;
 		case 'a':
-			toRotate = &(body1.ankleL);
+			toRotate = &(bs->ankleL);
 			break;
 		case 'A':
-			toRotate = &(body1.ankleR);
+			toRotate = &(bs->ankleR);
 			break;
 		case 's':
-			toRotate = &(body1.shoulderL);
+			toRotate = &(bs->shoulderL);
 			break;
 		case 'S':
-			toRotate = &(body1.shoulderR);
+			toRotate = &(bs->shoulderR);
 			break;
 		case 'e':
-			toRotate = &(body1.elbowL);
+			toRotate = &(bs->elbowL);
 			break;
 		case 'E':
-			toRotate = &(body1.elbowR);
+			toRotate = &(bs->elbowR);
 			break;
 		case 'w':
-			toRotate = &(body1.wristL);
+			toRotate = &(bs->wristL);
 			break;
 		case 'W':
-			toRotate = &(body1.wristR);
+			toRotate = &(bs->wristR);
 			break;
 		case '1':
 			toRotate->rx -= 0.5;
@@ -209,6 +209,12 @@ void processNormalKeys(unsigned char key, int x, int y)
 			break;
 		case '2':
 			box1.rx+=1;
+			break;
+		case '5':
+			if(bs==&(body1))
+				bs = &(body2);
+			else
+				bs = &(body1);
 			break;
 	}
 	glutPostRedisplay();

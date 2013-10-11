@@ -352,9 +352,9 @@ void body::initTexture(){
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
-	
-	
-	torso3.texture = shirt_tex; 
+
+
+	torso3.texture = shirt_tex;
 	torso1.texture = shirt_tex;
 	head.texture = SOIL_load_OGL_texture
 	(
@@ -375,21 +375,21 @@ void body::initTexture(){
 	larmR.texture = skin_tex;
 	handL.texture = skin_tex;
 	handR.texture = skin_tex;
-	
-	torso2.texture = shirt_tex; 
-	neck.texture = skin_tex; 
-	hipL.texture = jeans_tex; 
-	hipR.texture = jeans_tex; 
-	kneeL.texture = jeans_tex; 
-	kneeR.texture = jeans_tex; 
-	ankleL.texture = jeans_tex; 
-	ankleR.texture = jeans_tex; 
-	shoulderL.texture = shirt_tex; 
-	shoulderR.texture = shirt_tex; 
-	elbowL.texture = skin_tex; 
-	elbowR.texture = skin_tex; 
-	wristL.texture = skin_tex; 
-	wristR.texture = skin_tex; 
+
+	torso2.texture = shirt_tex;
+	neck.texture = skin_tex;
+	hipL.texture = jeans_tex;
+	hipR.texture = jeans_tex;
+	kneeL.texture = jeans_tex;
+	kneeR.texture = jeans_tex;
+	ankleL.texture = jeans_tex;
+	ankleR.texture = jeans_tex;
+	shoulderL.texture = shirt_tex;
+	shoulderR.texture = shirt_tex;
+	elbowL.texture = skin_tex;
+	elbowR.texture = skin_tex;
+	wristL.texture = skin_tex;
+	wristR.texture = skin_tex;
 
 
 }
