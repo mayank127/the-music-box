@@ -21,6 +21,8 @@ void body::init(){
 	larmR = bone(0.0, -5.0, 0.0,"larmR");
 	handL = bone(0.0, -1.0, 0.0,"handL");
 	handR = bone(0.0, -1.0, 0.0,"handR");
+	hat = bone(0.0, 2.0, 0.0,"hat");
+	stick = bone(0.0, -1.0, 0.0,"stick");
 
 	torso2 = joint(0.0, 5.0, 0.0, 0.0, 0.0, 0.0, &torso1,"torso2");
 	neck = joint(0.0, 5.0, 0.0, 0.0, 0.0, 0.0, &head,"neck");
@@ -36,6 +38,8 @@ void body::init(){
 	elbowR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &larmR,"elbowR");
 	wristL = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &handL,"handL");
 	wristR = joint(0.0, -5.0, 0.0, 0.0, 0.0, 0.0, &handR,"handR");
+	hatjoint = joint(0.0, 2.0, 0.0, 0.0, 0.0, 0.0, &hat,"hatjoint");
+	stickjoint = joint(0.0, -1.0, 0.0, 0.0, 0.0, 0.0, &stick,"stickjoint");
 
 	torso3.childeren.push_back(&torso2);
 	torso3.childeren.push_back(&hipL);
@@ -51,6 +55,8 @@ void body::init(){
 	uarmR.childeren.push_back(&elbowR);
 	larmL.childeren.push_back(&wristL);
 	larmR.childeren.push_back(&wristR);
+	head.childeren.push_back(&hatjoint);
+	handR.childeren.push_back(&stickjoint);
 
 	this->initConstraints();
 	this->initMuscles();
@@ -73,6 +79,8 @@ void body::initConstraints(){
 	elbowR.setConstraint(0, 0, 0, 0, 0, 170);
 	wristL.setConstraint(-90, 90, -20, 20, -40, 40);
 	wristR.setConstraint(-90, 90, -20, 20, -40, 40);
+	hatjoint.setConstraint(0 ,0 ,0 ,0 ,0 ,0);
+	stickjoint.setConstraint(-90 ,90 ,-90 ,90 ,-90 ,90);
 }
 
 void body::initMuscles(){
@@ -83,7 +91,6 @@ void body::initMuscles(){
 	gluQuadricDrawStyle(quadratic, GLU_FILL);
 
 	torso3.muscle = glGenLists(1);
-
 	glNewList(torso3.muscle, GL_COMPILE);
 		glPushMatrix();
 		glTranslatef(0.0, 0.5, 0.0);
@@ -208,6 +215,33 @@ void body::initMuscles(){
 		gluCylinder(quadratic,0.5f,0.5f,0.8f,32,32);
 		glPopMatrix();
 	glEndList();
+	hat.muscle = glGenLists(1);
+	glNewList(hat.muscle, GL_COMPILE);
+		glPushMatrix();
+		glTranslatef(0.0, 0.9, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		//gluDisk(quadratic,0.0f,1.5f,32,32);
+		gluDisk(quadratic,1.5f,2.5f,32,32);
+		gluCylinder(quadratic,2.5f,2.5f,0.2f,32,32);
+		glPopMatrix();
+		
+		glPushMatrix();
+		glTranslatef(0.0, 2.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		//gluDisk(quadratic,0.0f,1.5f,32,32);
+		gluDisk(quadratic,0.0f,1.5f,32,32);
+		gluCylinder(quadratic,1.5f,1.5f,1.6f,32,32);
+		glPopMatrix();
+	glEndList();
+	stick.muscle = glGenLists(1);
+	glNewList(stick.muscle, GL_COMPILE);
+		glPushMatrix();
+		glColor3f(0.75, 0.75, 0.75);
+		glTranslatef(0.0, -0.5, 0.0);
+		glRotatef(90.0, 1.0, 0.0, 0.0);
+		gluCylinder(quadratic,0.1f,0.1f,5.0f,32,32);
+		glPopMatrix();
+	glEndList();
 }
 
 void body::initJointMuscles(){
@@ -328,6 +362,22 @@ void body::initJointMuscles(){
 		gluSphere(quadratic,0.5f,32,32);
 		glPopMatrix();
 	glEndList();
+	
+	hatjoint.muscle = glGenLists(1);
+	glNewList(hatjoint.muscle, GL_COMPILE);
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
+	glEndList();
+	
+	stickjoint.muscle = glGenLists(1);
+	glNewList(stickjoint.muscle, GL_COMPILE);
+		glPushMatrix();
+		glColor3f(0.75, 0.75, 0.75);
+		gluSphere(quadratic,0.5f,32,32);
+		glPopMatrix();
+	glEndList();
 }
 
 void body::initTexture(){
@@ -375,6 +425,7 @@ void body::initTexture(){
 	larmR.texture = skin_tex;
 	handL.texture = skin_tex;
 	handR.texture = skin_tex;
+	hat.texture = jeans_tex;
 
 	torso2.texture = shirt_tex;
 	neck.texture = skin_tex;
