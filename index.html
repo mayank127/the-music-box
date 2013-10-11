@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>The Music Box by mayank127</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">The Music Box</h1>
+        <p class="header"></p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/mayank127/the-music-box/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/mayank127/the-music-box/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/mayank127/the-music-box">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/mayank127">mayank127</a></p>
+
+
+      </header>
+      <section>
+        <h3>
+<a name="the-music-box---stage-i---modeling" class="anchor" href="#the-music-box---stage-i---modeling"><span class="octicon octicon-link"></span></a>The Music Box - Stage I - Modeling</h3>
+
+<p>This is stage includes modeling of different parts of the music box assignment. It includes two human body and one box.</p>
+
+<hr><p><strong>Team</strong></p>
+
+<ul>
+<li>Mayank Meghwanshi (<a href="https://github.com/mayank127" class="user-mention">@mayank127</a>)</li>
+<li>Aditya Raj (<a href="https://github.com/grumpy-garfield" class="user-mention">@grumpy-garfield</a>)</li>
+</ul><hr><p><strong>Bone class</strong></p>
+
+<ul>
+<li>Bone has size,angle vector from 0,0,0 - float x,y,z</li>
+<li>Bone has children joints. - list children</li>
+<li>Bone has name - string</li>
+<li>Bone has texture - GLuint texture</li>
+<li>Bone has muscle - GLuint muscle -A Display List to design bone</li>
+<li>Bone has draw function which draws bone and its texture and than calls its child joint draw.</li>
+</ul><hr><p><strong>Joint class</strong></p>
+
+<ul>
+<li>Joint has position vector from 0,0,0 - float x,y,z</li>
+<li>Joint has rotation vector float rx,ry,rz</li>
+<li>Joint has rotation constraints from float rxn,ryn,rzn - float rxp,ryp,rzp</li>
+<li>Joint has a child bone. - bone* child</li>
+<li>Joint has name - string</li>
+<li>Joint has texture - GLuint texture</li>
+<li>Joint has muscle - GLuint muscle -A Display List to design joint</li>
+<li>Joiny has draw function which draws joint and its texture and than applies rotation and calls its child bone to draw.</li>
+</ul><hr><p><strong>Body Class</strong></p>
+
+<ul>
+<li>Body has position vector from 0,0,0 - float x,y,z</li>
+<li>Body has rotation vector float rx,ry,rz</li>
+<li>Body has bones torso3, torso1, head, thighL, thighR, legL, legR, footL, footR, uarmL, uarmR, larmL, larmR, handL, handR, hat, stick</li>
+<li>Body has joints torso2, neck, hipL, hipR, kneeL, kneeR, ankleL, ankleR, shoulderL, shoulderR, elbowL, elbowR, wristL, wristR, hatjoint, stickjoint</li>
+<li>Body than connects all of them according the hierachical model.</li>
+<li>Body sets constraints, display list for muscle and texture for color on joint and muscle.</li>
+</ul><p><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/hierarchy.png" alt="Hierarchical Model"></p>
+
+<hr><p><strong>Box Class</strong></p>
+
+<ul>
+<li>Box has position float x,y,z</li>
+<li>Box has rotation in x for top - float rx</li>
+<li>Box has two sizes for sides - size1, size2</li>
+<li>Box has texture and display lists for faces.</li>
+</ul><hr><p><strong>Main File</strong></p>
+
+<ul>
+<li>This creates the window and places camera and viewpoint and sets projection attributes.</li>
+<li>It than creates two bodies and one box and places them.</li>
+<li>It also changes texture for second body.</li>
+<li>It also sets keyboard inputs two move bodies and open box.</li>
+</ul><hr><p><strong>Controls</strong>
+Arrow keys to move your camera
+2 - Close Box       8 - Open Box</p>
+
+<p>5 - Switch Body
+1 - Rotate x -      3 - Rotate x +
+4 - Rotate y -      6 - Rotate y +
+7 - Rotate z -      9 - Rotate x +</p>
+
+<p>n - Neck
+t - Torso
+h - Hip Left        H - Hip Right
+k - Knee Left       K - Knee Right
+a - Ankle Left      A - Ankle Right
+s - Shoulder L      S - Shoulder R
+e - Elbow Left      E - Elbow Right
+w - Wrist Left      W - Wrist Right</p>
+
+<hr><p><strong>Citations</strong></p>
+
+<ul>
+<li>Used SOIL Library for loading image as texture.
+
+<ul>
+<li><a href="http://www.lonesock.net/soil.html">http://www.lonesock.net/soil.html</a></li>
+<li><a href="https://github.com/kbranigan/Simple-OpenGL-Image-Library">https://github.com/kbranigan/Simple-OpenGL-Image-Library</a></li>
+</ul>
+</li>
+<li>Used images from different sources found by google image.</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
