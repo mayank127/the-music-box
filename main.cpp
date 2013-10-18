@@ -10,16 +10,18 @@
 #include "body.h"
 #include "box.h"
 #include "room.h"
+#include "table.h"
 #include <iostream>
 using namespace std;
 
-float x=0.0f,y=0.0f,z=150.0f,r=150.0;
+float x=0.0f,y=0.0f,z=250.0f,r=250.0;
 float angle=0,ratio;
 body body1,body2;
 joint* toRotate;
 box box1;
 body* bs;
 room room1;
+table table1;
 
 
 void resize(int w, int h){
@@ -141,6 +143,7 @@ void initScene()
 	glEnable(GL_DEPTH_TEST);
 	glEnable( GL_TEXTURE_2D );
 	room1.init();
+	table1.init();
 	box1 = box(10, 6, 90, 0, 0, 0);
 	box1.texture = SOIL_load_OGL_texture
 	(
@@ -167,6 +170,7 @@ void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	room1.draw();
+	table1.draw();
 	body1.draw();
 	body2.draw();
 	box1.draw();

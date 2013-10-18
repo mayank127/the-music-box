@@ -7,7 +7,7 @@ room::room(){
 
 }
 void room::init(){
-	int size1=50, size2=50, size3=75;
+	int size1=150, size2=150, size3=150;
 	walls = glGenLists(1);
 	glNewList(walls,GL_COMPILE);
 		glColor3f(1.0, 1.0, 1.0);
