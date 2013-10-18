@@ -9,15 +9,17 @@
 #include "joint.h"
 #include "body.h"
 #include "box.h"
+#include "room.h"
 #include <iostream>
 using namespace std;
 
-float x=0.0f,y=10.0f,z=50.0f,r=50.0;
+float x=0.0f,y=0.0f,z=150.0f,r=150.0;
 float angle=0,ratio;
 body body1,body2;
 joint* toRotate;
 box box1;
 body* bs;
+room room1;
 
 
 void resize(int w, int h){
@@ -138,16 +140,8 @@ void initScene()
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable( GL_TEXTURE_2D );
-	body1 = body(-10,0,0,0,0,0);
-	body1.init();
-	bs = &(body1);
-	toRotate = &(bs->torso2);
+	room1.init();
 	box1 = box(10, 6, 90, 0, 0, 0);
-	body2 = body(20,0,0,0,0,0);
-	body2.init();
-	initTexture2();
-	printHelp();
-
 	box1.texture = SOIL_load_OGL_texture
 	(
 	  "images/wood.jpg",
@@ -155,12 +149,24 @@ void initScene()
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
+
+	body1 = body(-10,0,0,0,0,0);
+	body1.init();
+	bs = &(body1);
+	toRotate = &(bs->torso2);
+
+	body2 = body(20,0,0,0,0,0);
+	body2.init();
+	initTexture2();
+	printHelp();
+
 }
 
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	room1.draw();
 	body1.draw();
 	body2.draw();
 	box1.draw();
