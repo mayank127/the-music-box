@@ -11,10 +11,11 @@
 #include "box.h"
 #include "room.h"
 #include "camera.h"
+#include "table.h"
 #include <iostream>
 using namespace std;
 
-float x=0.0f,y=0.0f,z=150.0f,r=150.0;
+float x=0.0f,y=0.0f,z=250.0f,r=250.0;
 float angle=0,ratio;
 body body1,body2;
 joint* toRotate;
@@ -23,6 +24,8 @@ body* bs;
 room room1;
 camera cam;
 bool startCamera;
+table table1;
+
 
 void resize(int w, int h){
 	// Prevent a divide by zero, when window is too short
@@ -142,6 +145,7 @@ void initScene(){
 	glEnable(GL_DEPTH_TEST);
 	glEnable( GL_TEXTURE_2D );
 	room1.init();
+	table1.init();
 	box1 = box(10, 6, 90, 0, 0, 0);
 	box1.texture = SOIL_load_OGL_texture
 	(
@@ -168,6 +172,7 @@ void display(void){
 	cam.drawPoints();
 	cam.drawPath();
 	room1.draw();
+	table1.draw();
 	body1.draw();
 	body2.draw();
 	box1.draw();
