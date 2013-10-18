@@ -10,6 +10,7 @@
 #include "body.h"
 #include "box.h"
 #include "room.h"
+#include "camera.h"
 #include <iostream>
 using namespace std;
 
@@ -20,7 +21,8 @@ joint* toRotate;
 box box1;
 body* bs;
 room room1;
-
+camera cam;
+bool startCamera;
 
 void resize(int w, int h){
 	// Prevent a divide by zero, when window is too short
@@ -103,7 +105,6 @@ void initTexture2(){
 	body2.elbowR.texture = skin_tex;
 	body2.wristL.texture = skin_tex;
 	body2.wristR.texture = skin_tex;
-
 }
 
 void printHelp(){
@@ -136,8 +137,8 @@ void printHelp(){
 	cout<<"W - Wrist Right"<<endl;
 }
 
-void initScene()
-{
+void initScene(){
+	startCamera = false;
 	glEnable(GL_DEPTH_TEST);
 	glEnable( GL_TEXTURE_2D );
 	room1.init();
@@ -159,13 +160,13 @@ void initScene()
 	body2.init();
 	initTexture2();
 	printHelp();
-
 }
 
 
-void display(void)
-{
+void display(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	cam.drawPoints();
+	cam.drawPath();
 	room1.draw();
 	body1.draw();
 	body2.draw();
@@ -174,11 +175,16 @@ void display(void)
 }
 
 
-void processNormalKeys(unsigned char key, int x, int y)
-{
+void processNormalKeys(unsigned char key, int x, int y){
 	switch (key){
 		case 27:
 			exit(0);
+		case 32:
+			cam.calcPath();
+			break;
+		case 13:
+			startCamera = true;
+			break;
 		case 'n':
 		case 'N':
 			toRotate = &(bs->neck);
@@ -277,43 +283,55 @@ void processNormalKeys(unsigned char key, int x, int y)
 }
 
 
-void orientMe(float ang)
-{
-	x = r * sin(ang);
-	z = r * cos(ang);
-	glLoadIdentity();
-	gluLookAt(x, y, z, 0, 0, 0 , 0.0f, 1.0f, 0.0f);
-}
-
-
-void moveMeFlat(int i)
-{
-	y-=i;
-	orientMe(angle);
-}
-
-void inputKey(int key, int x, int y)
-{
+void processSpecialKey(int key, int x, int y){
 	switch (key) {
-		case GLUT_KEY_LEFT:
-			angle -= 0.1f;
-			orientMe(angle);
-			break;
-		case GLUT_KEY_RIGHT:
-			angle +=0.1f;
-			orientMe(angle);
-			break;
 		case GLUT_KEY_UP:
-			moveMeFlat(1);
+			cam.z+=1;
 			break;
 		case GLUT_KEY_DOWN:
-			moveMeFlat(-1);
+			cam.z-=1;
 			break;
 	}
 }
 
-int main(int argc, char **argv)
-{
+void mouse(int button, int state, int x, int y){
+	if (state == GLUT_DOWN)	{
+		if (button == GLUT_LEFT_BUTTON){
+			GLdouble modelMatrix[16];
+			GLdouble projMatrix[16];
+			GLint viewport[4];
+
+			glGetIntegerv(GL_VIEWPORT, viewport);
+			glGetDoublev(GL_MODELVIEW_MATRIX, modelMatrix);
+			glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
+
+			GLdouble x0, x1, y0, y1, z0, z1;
+			gluUnProject(x, viewport[1] + viewport[3] - y, 0, modelMatrix, projMatrix, viewport, &x0, &y0, &z0);
+			gluUnProject(x, viewport[1] + viewport[3] - y, 1, modelMatrix, projMatrix, viewport, &x1, &y1, &z1);
+			if(z0 != z1){
+				GLfloat t = (z0 - cam.z) / (z0 - z1);
+				GLfloat fx = x0 + (x1 - x0) * t,
+				        fy = y0 + (y1 - y0) * t;
+				cam.addPoint(fx,fy);
+			}
+		}
+		if (button == GLUT_RIGHT_BUTTON){
+			cam.erasePoint();
+		}
+	}
+	glutPostRedisplay();
+}
+
+void moveCamera(int value){
+	if(startCamera){
+		cam.nextPoint();
+	}
+	glutPostRedisplay();
+	glutTimerFunc(100,moveCamera,0);
+
+}
+
+int main(int argc, char **argv){
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100,100);
@@ -323,10 +341,12 @@ int main(int argc, char **argv)
 	cout<<"Welcome to Music Box 3D...!!!\n";
 	initScene();
 	glutKeyboardFunc(processNormalKeys);
-	glutSpecialFunc(inputKey);
+	glutSpecialFunc(processSpecialKey);
+	glutMouseFunc(mouse);
+
+	glutTimerFunc(100,moveCamera,0);
 
 	glutDisplayFunc(display);
-	glutIdleFunc(display);
 
 	glutReshapeFunc(resize);
 
