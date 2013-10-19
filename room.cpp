@@ -7,53 +7,89 @@ room::room(){
 
 }
 void room::init(){
-	int size1=150, size2=150, size3=150;
+	int size1=200, size2=200, size3=250;
 	walls = glGenLists(1);
 	glNewList(walls,GL_COMPILE);
-		glColor3f(1.0, 1.0, 1.0);
-		glBindTexture( GL_TEXTURE_2D, 0 );
-		//front
 		glPushMatrix();
-			createSide(size1/3,size2);
-			glTranslatef(size1/3,size2/2,0);
-			createSide(size1/3,size2/2);
-			glTranslatef(size1/3,-size2/2,0);
-			createSide(size1/3,size2);
-		glPopMatrix();
-		//below
-		glColor3f(1.0, 0.0, 0.0);
-		glPushMatrix();
-			glRotatef(-90, 1.0, 0.0, 0.0);
-			createSide(size1,size3);
-		glPopMatrix();
-		//left
-		glColor3f(0.0, 0.0, 1.0);
-		glPushMatrix();
-			glRotatef(90, 0.0, 1.0, 0.0);
-			createSide(size3,size1);
-		glPopMatrix();
+			glColor3f(1.0, 1.0, 1.0);
+			glBindTexture( GL_TEXTURE_2D, 0 );
+			//front
+			glPushMatrix();
+				createSide(size1/3,size2);
+				glTranslatef(size1/3,size2/2,0);
+				createSide(size1/3,size2/2);
+				glTranslatef(size1/3,-size2/2,0);
+				createSide(size1/3,size2);
+			glPopMatrix();
+			//below
+			glColor3f(1.0, 0.0, 0.0);
+			glPushMatrix();
+				glRotatef(-90, 1.0, 0.0, 0.0);
+				createSide(size1,size3);
+			glPopMatrix();
+			//left
+			glColor3f(0.0, 0.0, 1.0);
+			glPushMatrix();
+				glRotatef(90, 0.0, 1.0, 0.0);
+				createSide(size3,size1);
+			glPopMatrix();
 
-		//right
-		glColor3f(0.0, 1.0, 0.0);
-		glPushMatrix();
-			glTranslatef(size1-1, 0.0, 0.0);
-			glRotatef(90, 0.0, 1.0, 0.0);
-			createSide(size3,size2);
-		glPopMatrix();
+			//right
+			glColor3f(0.0, 1.0, 0.0);
+			glPushMatrix();
+				glTranslatef(size1-1, 0.0, 0.0);
+				glRotatef(90, 0.0, 1.0, 0.0);
+				createSide(size3,size2);
+			glPopMatrix();
 
-		//back
-		glColor3f(1.0, 0.0, 1.0);
-		glPushMatrix();
-			glTranslatef( 0.0, 0.0, -size3);
-			createSide(size1,size2);
-		glPopMatrix();
+			//back
+			glColor3f(1.0, 0.0, 1.0);
+			glPushMatrix();
+				glTranslatef( 0.0, 0.0, -size3);
+				createSide(size1,size2);
+			glPopMatrix();
 
-		//top
-		glColor3f(1.0, 1.0, 0.0);
+			//top
+			glColor3f(1.0, 1.0, 0.0);
+			glPushMatrix();
+				glTranslatef(0.0, size2, -size3);
+				glRotatef(90, 1.0, 0.0, 0.0);
+				createSide(size1,size3);
+			glPopMatrix();
+		glPopMatrix();
+	glEndList();
+
+	size1 = 25; size2 = 20;
+	table  = glGenLists(1);
+	glNewList(table, GL_COMPILE);
 		glPushMatrix();
-			glTranslatef(0.0, size2, -size3);
-			glRotatef(90, 1.0, 0.0, 0.0);
-			createSide(size1,size3);
+			//top
+			glPushMatrix();
+				glRotatef(90, 1.0, 0.0, 0.0);
+				createSide(size1,size2);
+			glPopMatrix();
+
+			//legs
+			glPushMatrix();
+				glTranslatef(0.0, 0.0, 0.0);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size1,1);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(size1-1, 0.0, 0.0);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size1,1);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(size1-1, 0.0, size2-1);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size1,1);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(0.0, 0.0, size2-1);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size1,1);
+			glPopMatrix();
 		glPopMatrix();
 	glEndList();
 }
@@ -118,5 +154,6 @@ void room::createSide(float size1, float size2){
 
 void room::draw(){
 	glCallList(walls);
+	glCallList(table);
 
 }

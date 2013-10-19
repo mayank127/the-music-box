@@ -11,21 +11,16 @@
 #include "box.h"
 #include "room.h"
 #include "camera.h"
-#include "table.h"
 #include <iostream>
 using namespace std;
 
-float x=0.0f,y=0.0f,z=250.0f,r=250.0;
-float angle=0,ratio;
+float ratio;
 body body1,body2;
 joint* toRotate;
 box box1;
 body* bs;
 room room1;
 camera cam;
-bool startCamera;
-table table1;
-
 
 void resize(int w, int h){
 	// Prevent a divide by zero, when window is too short
@@ -42,9 +37,10 @@ void resize(int w, int h){
 
 	// Set the clipping volume
 	gluPerspective(45, ratio, 1, 1000);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(x, y, z, 0, 0, 0 , 0.0f, 1.0f, 0.0f);
+	gluLookAt(cam.ex, cam.ey, cam.ez, 0, 0, 0 , 0.0f, 1.0f, 0.0f);
 }
 
 
@@ -141,11 +137,13 @@ void printHelp(){
 }
 
 void initScene(){
-	startCamera = false;
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable( GL_TEXTURE_2D );
+
+
+	cam.startCamera = false;
 	room1.init();
-	table1.init();
 	box1 = box(10, 6, 90, 0, 0, 0);
 	box1.texture = SOIL_load_OGL_texture
 	(
@@ -172,7 +170,6 @@ void display(void){
 	cam.drawPoints();
 	cam.drawPath();
 	room1.draw();
-	table1.draw();
 	body1.draw();
 	body2.draw();
 	box1.draw();
@@ -188,7 +185,7 @@ void processNormalKeys(unsigned char key, int x, int y){
 			cam.calcPath();
 			break;
 		case 13:
-			startCamera = true;
+			cam.startCamera = true;
 			break;
 		case 'n':
 		case 'N':
@@ -248,6 +245,12 @@ void processNormalKeys(unsigned char key, int x, int y){
 			toRotate = &(bs->wristR);
 			cout<<"\nWrist Right Activated...!!!\n";
 			break;
+		case 'z':
+			cam.z+=5;
+			break;
+		case 'Z':
+			cam.z-=5;
+			break;
 		case '1':
 			toRotate->rx -= 0.5;
 			break;
@@ -296,7 +299,14 @@ void processSpecialKey(int key, int x, int y){
 		case GLUT_KEY_DOWN:
 			cam.z-=1;
 			break;
+		case GLUT_KEY_LEFT:
+			glRotatef(1, 0.0f, 1.0f, 0.0f);
+			break;
+		case GLUT_KEY_RIGHT:
+			glRotatef(-1, 0.0f, 1.0f, 0.0f);
+			break;
 	}
+	glutPostRedisplay();
 }
 
 void mouse(int button, int state, int x, int y){
@@ -328,7 +338,7 @@ void mouse(int button, int state, int x, int y){
 }
 
 void moveCamera(int value){
-	if(startCamera){
+	if(cam.startCamera){
 		cam.nextPoint();
 	}
 	glutPostRedisplay();

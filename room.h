@@ -9,7 +9,7 @@ class room {
 	private:
 		void createSide(float, float);
 	public:
-		GLuint walls;
+		GLuint walls,table;
 		//constructor for box
 		room();											//null constructor
 

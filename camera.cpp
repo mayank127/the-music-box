@@ -7,7 +7,13 @@ camera::camera(){
 	this->u = 0;
 	this->du = 0.01;
 	this->pathValid = false;
-	this->z = 0;
+	this->z = 50;
+	this->ex = 0;
+	this->ey = 0;
+	this->ez = 500;
+	this->startCamera = false;
+	quadratic = gluNewQuadric();
+	gluQuadricTexture(quadratic, true);
 }
 void camera::addPoint(float x,float y){
 	vector<float> temp (3);
@@ -17,15 +23,18 @@ void camera::addPoint(float x,float y){
 	(this->control_points).push_back(temp);
 	this->pathValid = false;
 	path.clear();
+	this->startCamera = false;
 	this->u = 0;
 }
 void camera::drawPoints(){
-	glPointSize(10);
-	glBegin(GL_POINTS);
-		for(int i=0; i<(this->control_points).size(); i++){
-			glVertex3f(control_points[i][0], control_points[i][1], control_points[i][2]);
-		}
-	glEnd();
+	if(!this->startCamera){
+		glPointSize(5);
+		glBegin(GL_POINTS);
+			for(int i=0; i<(this->control_points).size(); i++){
+				glVertex3f(control_points[i][0],control_points[i][1],control_points[i][2]);
+			}
+		glEnd();
+	}
 }
 void camera::erasePoint(){
 	if(!this->control_points.empty()){
@@ -37,7 +46,7 @@ void camera::erasePoint(){
 }
 void camera::calcPath(){
 	if(!pathValid){
-		for(float u = du; u<1; u+=this->du){
+		for(float u = du; u<1-du; u+=this->du){
 			(this->path).push_back(this->calculatePoint(u));
 		}
 		pathValid = true;
@@ -58,7 +67,14 @@ void camera::nextPoint(){
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		gluLookAt(path[u][0], path[u][1], path[u][2], 0, 0, 0 , 0.0f, 1.0f, 0.0f);
-		u++;
+		this->ex = path[u][0];
+		this->ey = path[u][1];
+		this->ez = path[u][2];
+		this->u++;
+	}else{
+		this->u = 0;
+		this->startCamera = false;
+		this->control_points.clear();
 	}
 }
 

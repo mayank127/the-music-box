@@ -14,7 +14,9 @@ class camera {
 	bool pathValid;
 
 	public:
-		float z;
+		float ex,ey,ez,z;
+		bool startCamera;
+		GLUquadricObj *quadratic;
 		camera();
 		void addPoint(float,float);
 		void erasePoint();
