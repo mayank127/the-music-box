@@ -9,8 +9,8 @@ camera::camera(){
 	this->pathValid = false;
 	this->z = 50;
 	this->ex = 0;
-	this->ey = 0;
-	this->ez = 500;
+	this->ey = -50;
+	this->ez = 70;
 	this->startCamera = false;
 	quadratic = gluNewQuadric();
 	gluQuadricTexture(quadratic, true);

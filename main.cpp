@@ -11,6 +11,7 @@
 #include "box.h"
 #include "room.h"
 #include "camera.h"
+#include "light.h"
 #include <iostream>
 using namespace std;
 
@@ -21,7 +22,7 @@ box box1;
 body* bs;
 room room1;
 camera cam;
-
+light light1;
 void resize(int w, int h){
 	// Prevent a divide by zero, when window is too short
 	// (you cant make a window of zero width).
@@ -137,14 +138,17 @@ void printHelp(){
 }
 
 void initScene(){
-
 	glEnable(GL_DEPTH_TEST);
 	glEnable( GL_TEXTURE_2D );
-
+	glEnable(GL_LIGHTING);
+	glShadeModel( GL_SMOOTH );
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glEnable( GL_NORMALIZE );
 
 	cam.startCamera = false;
 	room1.init();
-	box1 = box(10, 6, 90, 0, 0, 0);
+	light1.init();
+	box1 = box(25, 15, 90, -10, -50, -10);
 	box1.texture = SOIL_load_OGL_texture
 	(
 	  "images/wood.jpg",
@@ -153,12 +157,12 @@ void initScene(){
 	  SOIL_FLAG_INVERT_Y
 	);
 
-	body1 = body(-10,0,0,0,0,0);
+	body1 = body(-5,-85,-40,0,0,0);
 	body1.init();
 	bs = &(body1);
 	toRotate = &(bs->torso2);
 
-	body2 = body(20,0,0,0,0,0);
+	body2 = body(15,-85,-40,0,0,0);
 	body2.init();
 	initTexture2();
 	printHelp();
@@ -169,6 +173,7 @@ void display(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	cam.drawPoints();
 	cam.drawPath();
+	light1.draw();
 	room1.draw();
 	body1.draw();
 	body2.draw();
@@ -271,9 +276,19 @@ void processNormalKeys(unsigned char key, int x, int y){
 			break;
 		case '8':
 			box1.rx-=1;
+			if(box1.dx<14){
+				body1.y+=0.3;
+				body2.y+=0.3;
+				box1.dx+=0.15;
+			}
 			break;
 		case '2':
 			box1.rx+=1;
+			if(box1.dx>0){
+				body1.y-=0.32;
+				body2.y-=0.32;
+				box1.dx-=0.16;
+			}
 			break;
 		case '5':
 			if(bs==&(body1)){
@@ -294,10 +309,10 @@ void processNormalKeys(unsigned char key, int x, int y){
 void processSpecialKey(int key, int x, int y){
 	switch (key) {
 		case GLUT_KEY_UP:
-			cam.z+=1;
+			glRotatef(-1, 1.0f, 0.0f, 0.0f);
 			break;
 		case GLUT_KEY_DOWN:
-			cam.z-=1;
+			glRotatef(1, 1.0f, 0.0f, 0.0f);
 			break;
 		case GLUT_KEY_LEFT:
 			glRotatef(1, 0.0f, 1.0f, 0.0f);
@@ -326,7 +341,7 @@ void mouse(int button, int state, int x, int y){
 			if(z0 != z1){
 				GLfloat t = (z0 - cam.z) / (z0 - z1);
 				GLfloat fx = x0 + (x1 - x0) * t,
-				        fy = y0 + (y1 - y0) * t;
+						fy = y0 + (y1 - y0) * t;
 				cam.addPoint(fx,fy);
 			}
 		}

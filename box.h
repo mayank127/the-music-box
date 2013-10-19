@@ -10,7 +10,7 @@ class box {
 	public:
 		GLuint boxDL11,boxDL12,texture;
 		float size1,size2;
-		float rx,x,y,z;
+		float rx,x,y,z,dx;
 		//constructor for box
 		box(float,float,float,float,float,float);
 		box();											//null constructor

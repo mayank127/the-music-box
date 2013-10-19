@@ -464,6 +464,7 @@ body::body(float x,float y,float z,float rx,float ry,float rz){
 
 void body::draw(){
 	glPushMatrix();
+		glScalef(0.5,0.5,0.5);
 		glTranslatef(x, y, z);
 		glRotatef(rx, 1.0, 0.0, 0.0);
 		glRotatef(ry, 0.0, 1.0, 0.0);

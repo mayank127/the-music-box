@@ -20,10 +20,12 @@ box::box(){
 	this->x= 0;
 	this->y= 0;
 	this->z= 0;
+	this->dx=0;
 }
 
 void box::createSide(float size1, float size2){
 	glBegin(GL_QUADS);
+		glNormal3f(0, 0, -1.0);
 		glTexCoord2d(0.0,0.0);
 		glVertex3f(0.0, 0.0, 0.0);
 		glTexCoord2d(1.0,0.0);
@@ -33,6 +35,7 @@ void box::createSide(float size1, float size2){
 		glTexCoord2d(0.0,1.0);
 		glVertex3f(0.0, size2, 0.0);
 
+		glNormal3f(0, 0, 1.0);
 		glTexCoord2d(0.0,0.0);
 		glVertex3f(0.0, 0.0, 1.0);
 		glTexCoord2d(1.0,0.0);
@@ -42,6 +45,7 @@ void box::createSide(float size1, float size2){
 		glTexCoord2d(0.0,1.0);
 		glVertex3f(0.0, size2, 1.0);
 
+		glNormal3f(0, 1.0, 0);
 		glTexCoord2d(0.0,0.0);
 		glVertex3f(0.0, size2, 0.0);
 		glTexCoord2d(1.0,0.0);
@@ -51,6 +55,7 @@ void box::createSide(float size1, float size2){
 		glTexCoord2d(0.0,1.0);
 		glVertex3f(size1, size2, 0.0);
 
+		glNormal3f(0, -1.0, 0);
 		glTexCoord2d(0.0,0.0);
 		glVertex3f(0.0, 0.0, 0.0);
 		glTexCoord2d(1.0,0.0);
@@ -60,6 +65,7 @@ void box::createSide(float size1, float size2){
 		glTexCoord2d(0.0,1.0);
 		glVertex3f(size1, 0, 0.0);
 
+		glNormal3f(1, 0, 0);
 		glTexCoord2d(0.0,0.0);
 		glVertex3f(size1, 0.0, 1.0);
 		glTexCoord2d(1.0,0.0);
@@ -69,6 +75,7 @@ void box::createSide(float size1, float size2){
 		glTexCoord2d(0.0,1.0);
 		glVertex3f(size1, size2, 1.0);
 
+		glNormal3f(-1, 0, 0);
 		glTexCoord2d(0.0,0.0);
 		glVertex3f(0.0, size2, 1.0);
 		glTexCoord2d(1.0,0.0);
@@ -106,6 +113,7 @@ void box::draw(){
 		glCallList(boxDL12);
 		//below
 		glPushMatrix();
+			glTranslatef(0,dx,0);
 			glRotatef(-90, 1.0, 0.0, 0.0);
 			glCallList(boxDL11);
 		glPopMatrix();
