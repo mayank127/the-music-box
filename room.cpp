@@ -98,6 +98,72 @@ void room::init(){
 			glPopMatrix();
 		glPopMatrix();
 	glEndList();
+	
+	size1 = 15; size2 = 20;
+	chair  = glGenLists(1);
+	glNewList(chair, GL_COMPILE);
+		glPushMatrix();
+			//top
+			glPushMatrix();
+				createSide(size1,size2);
+				glRotatef(90, 1.0, 0.0, 0.0);
+				createSide(size1,size2);
+			glPopMatrix();
+
+			//legs
+			glPushMatrix();
+				glTranslatef(0.0, 0.0, 0.0);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size2,1);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(size1-1, 0.0, 0.0);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size2,1);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(size1-1, 0.0, size2-1);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size2,1);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(0.0, 0.0, size2-1);
+				glRotatef(-90, 0.0, 0.0, 1.0);
+				createSide(size2,1);
+			glPopMatrix();
+		glPopMatrix();
+	glEndList();
+	
+	GLUquadricObj *quadratic;
+	quadratic = gluNewQuadric();
+	gluQuadricTexture(quadratic, true);
+	gluQuadricDrawStyle(quadratic, GLU_FILL);
+	stool = glGenLists(1);
+	glNewList(stool, GL_COMPILE);
+	
+		glPushMatrix();
+			glTranslatef(0.0,0.5,0.0);
+			glRotatef(90, 1.0, 0.0 ,0.0);
+			gluDisk(quadratic,0.0f,9.0f,32,32);
+			gluCylinder(quadratic,9.0f,9.0f,2.0f,32,32);
+		glPopMatrix();
+		glPushMatrix();
+			glRotatef(110, 1.0, 0.0 ,-0.25);
+			gluCylinder(quadratic,1.0f,1.0f,20.0f,32,32);
+		glPopMatrix();
+		glPushMatrix();
+			glRotatef(110, 1.0, 0.0 ,0.25);
+			gluCylinder(quadratic,1.0f,1.0f,20.0f,32,32);
+		glPopMatrix();
+		glPushMatrix();
+			glRotatef(70, 1.0, 0.0 ,0.25);
+			gluCylinder(quadratic,1.0f,1.0f,20.0f,32,32);
+		glPopMatrix();
+		glPushMatrix();
+			glRotatef(70, 1.0, 0.0 ,-0.25);
+			gluCylinder(quadratic,1.0f,1.0f,20.0f,32,32);
+		glPopMatrix();
+	glEndList();
 }
 
 void room::createSide(float size1, float size2){
@@ -170,5 +236,9 @@ void room::draw(){
 		glCallList(walls);
 		glTranslatef(60, 50,-150);
 		glCallList(table);
+		glTranslatef(30, 0, -30);
+		glCallList(chair);
+		glTranslatef(60, 0, 0);
+		glCallList(stool);
 	glPopMatrix();
 }
