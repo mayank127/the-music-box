@@ -16,6 +16,7 @@ class camera {
 	public:
 		float ex,ey,ez,z;
 		bool startCamera;
+		vector<float> lookAtPoint;
 		GLUquadricObj *quadratic;
 		camera();
 		void addPoint(float,float);

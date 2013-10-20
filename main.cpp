@@ -41,7 +41,7 @@ void resize(int w, int h){
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(cam.ex, cam.ey, cam.ez, 0, 0, 0 , 0.0f, 1.0f, 0.0f);
+	gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
 }
 
 
@@ -250,12 +250,52 @@ void processNormalKeys(unsigned char key, int x, int y){
 			toRotate = &(bs->wristR);
 			cout<<"\nWrist Right Activated...!!!\n";
 			break;
-		case 'z':
-			cam.z+=5;
+		case ',':
+			light1.l1 = !light1.l1;
 			break;
-		case 'Z':
-			cam.z-=5;
+		case '.':
+			light1.l2 = !light1.l2;
 			break;
+		case '+': {
+				float angle = atan((cam.lookAtPoint[0]-cam.ex)/(cam.lookAtPoint[2] - cam.ez));
+				if(cam.lookAtPoint[2]-cam.ez>=0){
+					cam.ex += sin(angle);
+					cam.ez += cos(angle);
+					cam.lookAtPoint[0] += sin(angle);
+					cam.lookAtPoint[2] += cos(angle);
+					cam.z = cam.lookAtPoint[2];
+				}else{
+					cam.ex -= sin(angle);
+					cam.ez -= cos(angle);
+					cam.lookAtPoint[0] -= sin(angle);
+					cam.lookAtPoint[2] -= cos(angle);
+					cam.z = cam.lookAtPoint[2];
+				}
+				glMatrixMode(GL_MODELVIEW);
+				glLoadIdentity();
+				gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
+				break;
+			}
+		case '-': {
+				float angle = atan((cam.lookAtPoint[0]-cam.ex)/(cam.lookAtPoint[2]-cam.ez));
+				if(cam.lookAtPoint[2]-cam.ez<0){
+					cam.ex += sin(angle);
+					cam.ez += cos(angle);
+					cam.lookAtPoint[0] += sin(angle);
+					cam.lookAtPoint[2] += cos(angle);
+					cam.z = cam.lookAtPoint[2];
+				}else{
+					cam.ex -= sin(angle);
+					cam.ez -= cos(angle);
+					cam.lookAtPoint[0] -= sin(angle);
+					cam.lookAtPoint[2] -= cos(angle);
+					cam.z = cam.lookAtPoint[2];
+				}
+				glMatrixMode(GL_MODELVIEW);
+				glLoadIdentity();
+				gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
+				break;
+			}
 		case '1':
 			toRotate->rx -= 0.5;
 			break;
@@ -309,18 +349,25 @@ void processNormalKeys(unsigned char key, int x, int y){
 void processSpecialKey(int key, int x, int y){
 	switch (key) {
 		case GLUT_KEY_UP:
-			glRotatef(-1, 1.0f, 0.0f, 0.0f);
+			cam.lookAtPoint[1]+=1;
 			break;
 		case GLUT_KEY_DOWN:
-			glRotatef(1, 1.0f, 0.0f, 0.0f);
+			cam.lookAtPoint[1]-=1;
 			break;
 		case GLUT_KEY_LEFT:
-			glRotatef(1, 0.0f, 1.0f, 0.0f);
+			cam.lookAtPoint[3]-=.01;
+			cam.lookAtPoint[0]=10*sin(cam.lookAtPoint[3])+cam.ex;
+			cam.lookAtPoint[2]=-10*cos(cam.lookAtPoint[3])+cam.ez;
 			break;
 		case GLUT_KEY_RIGHT:
-			glRotatef(-1, 0.0f, 1.0f, 0.0f);
+			cam.lookAtPoint[3]+=.01;
+			cam.lookAtPoint[0]=10*sin(cam.lookAtPoint[3])+cam.ex;
+			cam.lookAtPoint[2]=-10*cos(cam.lookAtPoint[3])+cam.ez;
 			break;
 	}
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
 	glutPostRedisplay();
 }
 

@@ -2,6 +2,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 camera::camera(){
 	this->u = 0;
@@ -9,11 +10,16 @@ camera::camera(){
 	this->pathValid = false;
 	this->z = 50;
 	this->ex = 0;
-	this->ey = -50;
-	this->ez = 70;
+	this->ey = 0;
+	this->ez = 50;
 	this->startCamera = false;
 	quadratic = gluNewQuadric();
 	gluQuadricTexture(quadratic, true);
+	lookAtPoint.resize(4);
+	lookAtPoint[0]=0;
+	lookAtPoint[1]=0;
+	lookAtPoint[2]=0;
+	lookAtPoint[3]=0;
 }
 void camera::addPoint(float x,float y){
 	vector<float> temp (3);
@@ -66,10 +72,11 @@ void camera::nextPoint(){
 	if(pathValid && this->u<path.size()){
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		gluLookAt(path[u][0], path[u][1], path[u][2], 0, 0, 0 , 0.0f, 1.0f, 0.0f);
+		gluLookAt(path[u][0], path[u][1], path[u][2], lookAtPoint[0], lookAtPoint[1], lookAtPoint[2] , 0.0f, 1.0f, 0.0f);
 		this->ex = path[u][0];
 		this->ey = path[u][1];
 		this->ez = path[u][2];
+		this->z = path[u][2];
 		this->u++;
 	}else{
 		this->u = 0;
