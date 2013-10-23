@@ -144,7 +144,10 @@ void initScene(){
 	glShadeModel( GL_SMOOTH );
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable( GL_NORMALIZE );
-
+	glDepthFunc(GL_LEQUAL);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+	glClearStencil(0);
+	glEnable(GL_STENCIL_TEST);
 	cam.startCamera = false;
 	room1.init();
 	light1.init();
@@ -168,12 +171,56 @@ void initScene(){
 	printHelp();
 }
 
+double cmx = -100;
+double cmy = -30.0;
+double cmz = 0;
+void mirror () {
+	glBegin(GL_QUADS);		// Draw whole mirror
+		glNormal3f(1,0,0);
+		glVertex3f(cmx, cmy - 40, cmz - 20.0);
+		glVertex3f(cmx, cmy - 40, cmz + 20.0);
+		glVertex3f(cmx, cmy + 40, cmz + 20.0);
+		glVertex3f(cmx, cmy + 40, cmz - 20.0);
+	glEnd();
+}
 
 void display(void){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
+
+	glEnable(GL_STENCIL_TEST);
+	glClear(GL_STENCIL_BUFFER_BIT);
+	glStencilFunc(GL_ALWAYS, 1, 1);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	mirror();
+	// Clear the colour buffer before displaying the scene.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	glStencilFunc(GL_EQUAL, 1, 1);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+	glPushMatrix();
+		glTranslatef(cmx, cmy, cmz);		// Move to centre of mirror.
+		glScalef(-1.0, 1.0, 1.0);			// Reflect in X axis.
+		glTranslatef(-cmx, -cmy, -cmz);		// Move back again.
+		light1.draw();
+		room1.draw();
+		body1.draw();
+		body2.draw();
+		box1.draw();
+	glPopMatrix();
+
+
+	glStencilFunc(GL_NOTEQUAL, 1, 1);
+	light1.draw();
+	room1.drawLeftWall();
+
+
+	glDisable(GL_STENCIL_TEST);
 	cam.drawPoints();
 	cam.drawPath();
-	light1.draw();
 	room1.draw();
 	body1.draw();
 	body2.draw();
@@ -271,9 +318,6 @@ void processNormalKeys(unsigned char key, int x, int y){
 					cam.lookAtPoint[2] -= cos(angle);
 					cam.z = cam.lookAtPoint[2];
 				}
-				glMatrixMode(GL_MODELVIEW);
-				glLoadIdentity();
-				gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
 				break;
 			}
 		case '-': {
@@ -291,9 +335,6 @@ void processNormalKeys(unsigned char key, int x, int y){
 					cam.lookAtPoint[2] -= cos(angle);
 					cam.z = cam.lookAtPoint[2];
 				}
-				glMatrixMode(GL_MODELVIEW);
-				glLoadIdentity();
-				gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
 				break;
 			}
 		case '1':
@@ -358,16 +399,15 @@ void processSpecialKey(int key, int x, int y){
 			cam.lookAtPoint[3]-=.01;
 			cam.lookAtPoint[0]=10*sin(cam.lookAtPoint[3])+cam.ex;
 			cam.lookAtPoint[2]=-10*cos(cam.lookAtPoint[3])+cam.ez;
+			cam.z = cam.lookAtPoint[2];
 			break;
 		case GLUT_KEY_RIGHT:
 			cam.lookAtPoint[3]+=.01;
 			cam.lookAtPoint[0]=10*sin(cam.lookAtPoint[3])+cam.ex;
 			cam.lookAtPoint[2]=-10*cos(cam.lookAtPoint[3])+cam.ez;
+			cam.z = cam.lookAtPoint[2];
 			break;
 	}
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(cam.ex, cam.ey, cam.ez, cam.lookAtPoint[0], cam.lookAtPoint[1], cam.lookAtPoint[2], 0.0f, 1.0f, 0.0f);
 	glutPostRedisplay();
 }
 

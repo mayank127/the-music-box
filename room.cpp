@@ -31,13 +31,6 @@ void room::init(){
 				glRotatef(270, 1.0, 0.0, 0.0);
 				createSide(size1,size3);
 			glPopMatrix();
-			//left
-			glColor3f(0.0, 0.0, 1.0);
-			glPushMatrix();
-				glTranslatef(0.0, 0.0, -size3);
-				glRotatef(270, 0.0, 1.0, 0.0);
-				createSide(size3,size1);
-			glPopMatrix();
 
 			//right
 			glColor3f(0.0, 1.0, 0.0);
@@ -251,5 +244,15 @@ void room::draw(){
 		glCallList(chair);
 		glTranslatef(95, 0, -50);
 		glCallList(stool);
+	glPopMatrix();
+}
+void room::drawLeftWall(){
+	int size1=201, size2=200, size3=250;
+	//left
+	glBindTexture( GL_TEXTURE_2D, 0 );
+	glPushMatrix();
+		glTranslatef(-100,-100,+100-size3);
+		glRotatef(270, 0.0, 1.0, 0.0);
+		createSide(size3,size1);
 	glPopMatrix();
 }

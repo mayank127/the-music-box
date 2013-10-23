@@ -13,8 +13,6 @@ camera::camera(){
 	this->ey = 0;
 	this->ez = 50;
 	this->startCamera = false;
-	quadratic = gluNewQuadric();
-	gluQuadricTexture(quadratic, true);
 	lookAtPoint.resize(4);
 	lookAtPoint[0]=0;
 	lookAtPoint[1]=0;
@@ -70,9 +68,6 @@ void camera::drawPath(){
 }
 void camera::nextPoint(){
 	if(pathValid && this->u<path.size()){
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		gluLookAt(path[u][0], path[u][1], path[u][2], lookAtPoint[0], lookAtPoint[1], lookAtPoint[2] , 0.0f, 1.0f, 0.0f);
 		this->ex = path[u][0];
 		this->ey = path[u][1];
 		this->ez = path[u][2];

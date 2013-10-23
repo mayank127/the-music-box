@@ -15,5 +15,6 @@ class room {
 
 		void init();
 		void draw();		//draw function
+		void drawLeftWall();
 };
 #endif
