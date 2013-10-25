@@ -7,8 +7,12 @@ To run the program use make command inside the folder.
 
 To control the bodies :-
 
-Arrow keys to move your camera
+  Arrow keys to move your camera + & - to zoom in & zoom out
+  
 2 - Close Box		8 - Open Box
+d - Open Door		D - Close Door
+
+. - wall light		, - lamp light
 
 5 - Switch Body
 1 - Rotate x -		3 - Rotate x +
@@ -24,6 +28,10 @@ s - Shoulder L		S - Shoulder R
 e - Elbow Left		E - Elbow Right
 w - Wrist Left		W - Wrist Right
 
+To make points for bezier curve click anywhere on screen and to move in or out use zoom in & zoom out.
+Press space to generate curve and Enter to move camera on it.
+
+We also have implemented mirror.
 
 Citations :
 Used SOIL Library for loading image as texture.

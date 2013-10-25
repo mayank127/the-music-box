@@ -18,8 +18,8 @@ void light::init(){
 	dif1[3] = 1;
 
 	light_position1[0] = 70;
-	light_position1[1] = -50;
-	light_position1[2] = -120;
+	light_position1[1] = -30;
+	light_position1[2] = -100;
 	light_position1[3] = 1;
 
 	amb2[0] = 0;
@@ -34,7 +34,7 @@ void light::init(){
 
 	light_position2[0] = 0;
 	light_position2[1] = 20;
-	light_position2[2] = 100;
+	light_position2[2] = 90;
 	light_position2[3] = 1;
 
 }

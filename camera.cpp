@@ -8,14 +8,14 @@ camera::camera(){
 	this->u = 0;
 	this->du = 0.01;
 	this->pathValid = false;
-	this->z = 50;
+	this->z = 40;
 	this->ex = 0;
 	this->ey = 0;
 	this->ez = 50;
 	this->startCamera = false;
 	lookAtPoint.resize(4);
 	lookAtPoint[0]=0;
-	lookAtPoint[1]=0;
+	lookAtPoint[1]=-20;
 	lookAtPoint[2]=0;
 	lookAtPoint[3]=0;
 }
@@ -72,6 +72,9 @@ void camera::nextPoint(){
 		this->ey = path[u][1];
 		this->ez = path[u][2];
 		this->z = path[u][2];
+		lookAtPoint[0] = 0;
+		lookAtPoint[1] = -30;
+		lookAtPoint[2] = -10;
 		this->u++;
 	}else{
 		this->u = 0;

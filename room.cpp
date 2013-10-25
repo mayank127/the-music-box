@@ -17,9 +17,25 @@ void room::init(){
 	  SOIL_FLAG_INVERT_Y
 	);
 
-	wall_tex = SOIL_load_OGL_texture
+	wall1_tex = SOIL_load_OGL_texture
 	(
-	  "images/wall.jpg",
+	  "images/wall1.jpg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	
+	wall2_tex = SOIL_load_OGL_texture
+	(
+	  "images/wall2.jpg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	
+	walls_tex = SOIL_load_OGL_texture
+	(
+	  "images/walls.jpg",
 	  SOIL_LOAD_AUTO,
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
@@ -27,7 +43,15 @@ void room::init(){
 
 	door_tex = SOIL_load_OGL_texture
 	(
-	  "images/door.jpg",
+	  "images/door.jpeg",
+	  SOIL_LOAD_AUTO,
+	  SOIL_CREATE_NEW_ID,
+	  SOIL_FLAG_INVERT_Y
+	);
+	
+	silver_tex = SOIL_load_OGL_texture
+	(
+	  "images/silver.jpeg",
 	  SOIL_LOAD_AUTO,
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
@@ -35,23 +59,27 @@ void room::init(){
 
 	walls = glGenLists(1);
 	glNewList(walls,GL_COMPILE);
-		glEnable(GL_COLOR_MATERIAL);
 		glColor3f(1.0, 1.0, 1.0);
 		glPushMatrix();
-			glBindTexture( GL_TEXTURE_2D, wall_tex);
+
+
 			//front
 			glPushMatrix();
+				glBindTexture( GL_TEXTURE_2D, wall2_tex);
 				createSide(size1/3,size2/2);
+				glBindTexture( GL_TEXTURE_2D, wall1_tex);
 				glTranslatef(0,size2/2,0);
 				createSide(size1/3,size2/2);
 				glTranslatef(size1/3,0,0);
 				createSide(size1/3,size2/2);
 				glTranslatef(size1/3,0,0);
 				createSide(size1/3,size2/2);
+				glBindTexture( GL_TEXTURE_2D, wall2_tex);
 				glTranslatef(0,-size2/2,0);
 				createSide(size1/3,size2/2);
 			glPopMatrix();
 			//below
+			glBindTexture( GL_TEXTURE_2D, walls_tex);
 			glPushMatrix();
 				glRotatef(270, 1.0, 0.0, 0.0);
 				createSide(size1,size3);
@@ -78,23 +106,14 @@ void room::init(){
 				createSide(size1,size3);
 			glPopMatrix();
 		glPopMatrix();
-		glDisable(GL_COLOR_MATERIAL);
-	glEndList();
-	door = glGenLists(1);
-	glNewList(door,GL_COMPILE);
-		glBindTexture( GL_TEXTURE_2D, door_tex);
-		glPushMatrix();
-			glTranslatef(size1/3,0,0);
-			glRotatef(rd,0.0,-1.0,0.0);
-			createSide(size1/3,size2/2);
-		glPopMatrix();
+		
 	glEndList();
 
 	size1 = 80; size2 = 50;
 	table  = glGenLists(1);
 	glNewList(table, GL_COMPILE);
 		glBindTexture( GL_TEXTURE_2D, table_tex );
-		glEnable(GL_COLOR_MATERIAL);
+
 		glColor3f(1.0, 1.0, 1.0);
 		glPushMatrix();
 			//top
@@ -125,13 +144,13 @@ void room::init(){
 				createSide(size2,1);
 			glPopMatrix();
 		glPopMatrix();
-		glDisable(GL_COLOR_MATERIAL);
+		
 	glEndList();
 
 	size1 = 15; size2 = 20;
 	chair  = glGenLists(1);
 	glNewList(chair, GL_COMPILE);
-		glEnable(GL_COLOR_MATERIAL);
+
 		glColor3f(1.0, 1.0, 1.0);
 		glPushMatrix();
 			glScalef(2,2,2);
@@ -164,11 +183,12 @@ void room::init(){
 				createSide(size2,1);
 			glPopMatrix();
 		glPopMatrix();
-		glDisable(GL_COLOR_MATERIAL);
+		
 	glEndList();
 
 	cabinet  = glGenLists(1);
 	glNewList(cabinet, GL_COMPILE);
+
 		glPushMatrix();
 			glScalef(2,2,2);
 			//back
@@ -227,6 +247,7 @@ void room::init(){
 	gluQuadricDrawStyle(quadratic, GLU_FILL);
 	stool = glGenLists(1);
 	glNewList(stool, GL_COMPILE);
+
 		glPushMatrix();
 			glScalef(2,2,2);
 			glPushMatrix();
@@ -258,6 +279,33 @@ void room::init(){
 			glPushMatrix();
 				glRotatef(70, 1.0, 0.0 ,-0.25);
 				gluCylinder(quadratic,1.0f,1.0f,20.0f,32,32);
+			glPopMatrix();
+		glPopMatrix();
+	glEndList();
+	
+	lamp = glGenLists(1);
+	glNewList(lamp, GL_COMPILE);
+		glPushMatrix();
+			glBindTexture( GL_TEXTURE_2D, silver_tex);
+
+			gluQuadricOrientation(quadratic,GLU_OUTSIDE);
+			glTranslatef(-4.0,15.0,6.0);
+			glPushMatrix();
+				glRotatef(90, 1.0, 0.0 ,0.0);
+				gluCylinder(quadratic,4.0f,10.0f,10.0f,32,32);
+			glPopMatrix();
+			glTranslatef(0.0,5.0,0.0);
+			glPushMatrix();
+				glRotatef(90, 1.0, 0.0 ,0.0);
+				gluCylinder(quadratic,4.0f,4.0f,12.0f,32,32);
+			glPopMatrix();
+			glPushMatrix();
+				glColor4f(1,1,1,0.4);
+				glTranslatef(0.0,12.0,0.0);
+				glRotatef(90, 1.0, 0.0 ,0.0);
+				gluQuadricOrientation(quadratic,GLU_INSIDE);
+				gluCylinder(quadratic,12.0f,12.0f,12.0f,32,32);
+				gluDisk(quadratic,0.0f,12.0f,32,32);
 			glPopMatrix();
 		glPopMatrix();
 	glEndList();
@@ -329,24 +377,31 @@ void room::createSide(float size1, float size2){
 }
 
 void room::draw(){
+	int size1=201, size2=200, size3=250;
 	glPushMatrix();
 		glTranslatef(-100,-100,+100);
 		glCallList(walls);
-		glCallList(door);
+		glPushMatrix();
+			glBindTexture( GL_TEXTURE_2D, door_tex);
+			glTranslatef(size1/3,0,0);
+			glRotatef(rd,0.0,-1.0,0.0);
+			createSide(size1/3,size2/2);
+		glPopMatrix();
 		glTranslatef(60, 50,-150);
 		glCallList(table);
 		glTranslatef(25, -10, -30);
 		glCallList(chair);
-		glTranslatef(95, 0, -50);
-		glCallList(stool);
-		glTranslatef(-150, 0, 0);
+		glTranslatef(-60, -30, -50);
 		glCallList(cabinet);
+		glTranslatef(150, 30, 20);
+		glCallList(stool);
+		glCallList(lamp);
 	glPopMatrix();
 }
 void room::drawLeftWall(){
 	int size1=201, size2=200, size3=250;
 	//left
-	glBindTexture( GL_TEXTURE_2D, wall_tex);
+	glBindTexture( GL_TEXTURE_2D, walls_tex);
 	glPushMatrix();
 		glTranslatef(-100,-100,+100-size3);
 		glRotatef(270, 0.0, 1.0, 0.0);

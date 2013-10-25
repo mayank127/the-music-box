@@ -111,7 +111,11 @@ void printHelp(){
 	cout<<"Here are the controls...\n";
 	cout<<"Arrow keys to move your camera\n";
 	cout<<"2 - Close Box\t\t";
-	cout<<"8 - Open Box"<<endl<<endl;
+	cout<<"8 - Open Box"<<endl;
+	cout<<"d - Open Door\t\t";
+	cout<<"D - Close Door"<<endl;
+	cout<<". - wall light\t\t";
+	cout<<", - lamp light"<<endl<<endl;
 
 	cout<<"5 - Switch Body"<<endl;
 	cout<<"1 - Rotate x -\t\t";
@@ -135,6 +139,7 @@ void printHelp(){
 	cout<<"E - Elbow Right"<<endl;
 	cout<<"w - Wrist Left\t\t";
 	cout<<"W - Wrist Right"<<endl;
+	cout<<"To make points for bezier curve click anywhere on screen and to move in or out use zoom in & zoom out.\nPress space to generate curve and Enter to move camera on it."<<endl;
 }
 
 void initScene(){
@@ -171,17 +176,28 @@ void initScene(){
 	printHelp();
 }
 
-double cmx = -100;
+double cmx = -90;
 double cmy = -30.0;
 double cmz = 0;
-void mirror () {
-	glBegin(GL_QUADS);		// Draw whole mirror
-		glNormal3f(1,0,0);
-		glVertex3f(cmx, cmy - 40, cmz - 20.0);
-		glVertex3f(cmx, cmy - 40, cmz + 20.0);
-		glVertex3f(cmx, cmy + 40, cmz + 20.0);
-		glVertex3f(cmx, cmy + 40, cmz - 20.0);
-	glEnd();
+void mirror (bool check) {
+	if(check){
+		glBegin(GL_QUADS);		// Draw whole mirror
+			glNormal3f(1,0,0);
+			glVertex3f(cmx, cmy - 40, cmz - 20.0);
+			glVertex3f(cmx, cmy - 40, cmz + 20.0);
+			glVertex3f(cmx, cmy + 40, cmz + 20.0);
+			glVertex3f(cmx, cmy + 40, cmz - 20.0);
+		glEnd();
+	}else{
+		glBegin(GL_QUADS);		// Draw whole mirror
+			glNormal3f(1,0,0);
+			glVertex3f(cmx, cmy - 50, cmz - 30.0);
+			glVertex3f(cmx, cmy - 50, cmz + 30.0);
+			glVertex3f(cmx, cmy + 50, cmz + 30.0);
+			glVertex3f(cmx, cmy + 50, cmz - 30.0);
+		glEnd();
+	}
+	
 }
 
 void display(void){
@@ -194,7 +210,7 @@ void display(void){
 	glClear(GL_STENCIL_BUFFER_BIT);
 	glStencilFunc(GL_ALWAYS, 1, 1);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	mirror();
+	mirror(true);
 	// Clear the colour buffer before displaying the scene.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -216,6 +232,7 @@ void display(void){
 	glStencilFunc(GL_NOTEQUAL, 1, 1);
 	light1.draw();
 	room1.drawLeftWall();
+	mirror(false);
 
 
 	glDisable(GL_STENCIL_TEST);
@@ -302,6 +319,12 @@ void processNormalKeys(unsigned char key, int x, int y){
 			break;
 		case '.':
 			light1.l2 = !light1.l2;
+			break;
+		case 'd':
+			room1.rd += 5;
+			break;
+		case 'D':
+			room1.rd += -5;
 			break;
 		case '+': {
 				float angle = atan((cam.lookAtPoint[0]-cam.ex)/(cam.lookAtPoint[2] - cam.ez));
