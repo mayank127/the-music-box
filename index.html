@@ -85,27 +85,60 @@
 <li>It than creates two bodies and one box and places them.</li>
 <li>It also changes texture for second body.</li>
 <li>It also sets keyboard inputs two move bodies and open box.</li>
-</ul><hr><p><strong>Controls</strong>
-Arrow keys to move your camera<br>
-2 - Close Box       8 - Open Box  </p>
+</ul><hr><p><strong>Sample Images</strong></p>
 
-<p>5 - Switch Body<br>
-1 - Rotate x -      3 - Rotate x +<br>
-4 - Rotate y -      6 - Rotate y +<br>
-7 - Rotate z -      9 - Rotate x +  </p>
+<p><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample1.png" alt="Sample1"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample2.png" alt="Sample2"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample3.png" alt="Sample3"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample4.png" alt="Sample4"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample5.png" alt="Sample5"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample6.png" alt="Sample6"></p>
 
-<p>n - Neck<br>
-t - Torso<br>
-h - Hip Left        H - Hip Right<br>
-k - Knee Left       K - Knee Right<br>
-a - Ankle Left      A - Ankle Right<br>
-s - Shoulder L      S - Shoulder R<br>
-e - Elbow Left      E - Elbow Right<br>
-w - Wrist Left      W - Wrist Right  </p>
+<hr><h3>
+<a name="the-music-box---stage-ii---rendering" class="anchor" href="#the-music-box---stage-ii---rendering"><span class="octicon octicon-link"></span></a>The Music Box - Stage II - Rendering</h3>
+
+<p>At this stage created the surrounding room, furniture, lighting and mirror along with the box from previous part. Also implement Bezier curves for camera movement where user can specify control points.</p>
+
+<hr><p><strong>camera.cpp</strong></p>
+
+<ul>
+<li>This take different point user clicks as input to the function and stores them as control points.</li>
+<li>Then it draws the bezier curve corresponding to that using De Casteljau's Alorithm.</li>
+<li>Also now camera can move over the curve while looking at the box on table.</li>
+</ul><hr><p><strong>room.cpp</strong></p>
+
+<ul>
+<li>This first initializes different display list for all the furniture and wall in the room.</li>
+<li>This includes walls, table, chair, stool, cabinet and a lamp.</li>
+</ul><hr><p><strong>light.cpp</strong></p>
+
+<ul>
+<li>This contains the two lights placed above the door and inside the lamp.</li>
+<li>This also has function of switching light on and off.</li>
+</ul><hr><p><strong>Controls</strong></p>
+
+<pre><code>Arrow keys to move your camera + and - to zoom in and out of the view.  
+
+2 - Close Box       8 - Open Box  
+d - Close Door          D - Open Door  
+. - Wall light          , - Lamp Light
+
+5 - Switch Body    
+1 - Rotate x -          3 - Rotate x +  
+4 - Rotate y -          6 - Rotate y +  
+7 - Rotate z -          9 - Rotate x +  
+
+n - Neck  
+t - Torso    
+h - Hip Left        H - Hip Right  
+k - Knee Left       K - Knee Right  
+a - Ankle Left          A - Ankle Right  
+s - Shoulder L          S - Shoulder R  
+e - Elbow Left          E - Elbow Right  
+w - Wrist Left          W - Wrist Right  
+
+To make points for bezier curve click anywhere on screen and to move in or out use zoom in and zoom out.
+Press space to generate curve and Enter to move camera on it.  
+</code></pre>
 
 <hr><p><strong>Sample Images</strong></p>
 
-<p><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample1.png" alt="Sample1"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample2.png" alt="Sample2"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample3.png" alt="Sample3"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample4.png" alt="Sample4"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample5.png" alt="Sample5"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample6.png" alt="Sample6"></p>
+<p><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample7.png" alt="Sample7"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample8.png" alt="Sample8"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample9.png" alt="Sample9"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample10.png" alt="Sample10"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample11.png" alt="Sample11"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample12.png" alt="Sample12"></p>
 
 <hr><p><strong>Citations</strong></p>
 
@@ -115,6 +148,12 @@ w - Wrist Left      W - Wrist Right  </p>
 <ul>
 <li><a href="http://www.lonesock.net/soil.html">http://www.lonesock.net/soil.html</a></li>
 <li><a href="https://github.com/kbranigan/Simple-OpenGL-Image-Library">https://github.com/kbranigan/Simple-OpenGL-Image-Library</a></li>
+</ul>
+</li>
+<li>Used Nehe OpegGL tutorials to implemtent mirror in the room.
+
+<ul>
+<li><a href="http://nehe.gamedev.net">http://nehe.gamedev.net</a></li>
 </ul>
 </li>
 <li>Used images from different sources found by google image.</li>
