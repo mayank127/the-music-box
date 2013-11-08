@@ -6,7 +6,7 @@
 
 camera::camera(){
 	this->u = 0;
-	this->du = 0.01;
+	this->du = 0.005;
 	this->pathValid = false;
 	this->z = 40;
 	this->ex = 0;

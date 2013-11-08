@@ -73,8 +73,8 @@ void body::initConstraints(){
 	kneeR.setConstraint(0, 150, 0, 0, 0, 0);
 	ankleL.setConstraint(-120, 0, -20, 20, -10, 10);
 	ankleR.setConstraint(-120, 0, -20, 20, -10, 10);
-	shoulderL.setConstraint(-150, 150, -20, 20, -50, 180);
-	shoulderR.setConstraint(-150, 150, -20, 20, -180, 50);
+	shoulderL.setConstraint(-150, 150, -100, 100, -50, 180);
+	shoulderR.setConstraint(-150, 150, -100, 100, -180, 50);
 	elbowL.setConstraint(0, 0, 0, 0, -170, 0);
 	elbowR.setConstraint(0, 0, 0, 0, 0, 170);
 	wristL.setConstraint(-90, 90, -20, 20, -40, 40);

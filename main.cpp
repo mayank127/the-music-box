@@ -40,7 +40,7 @@ void capture_frame(unsigned int framenum)
 
 	glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pRGB);
 	char filename[200];
-	sprintf(filename,"frame/frame_%04d.ppm",framenum);
+	sprintf(filename,"frame/frame_%05d.ppm",framenum);
 	std::ofstream out(filename, std::ios::out);
 	out<<"P6"<<std::endl;
 	out<<SCREEN_WIDTH<<" "<<SCREEN_HEIGHT<<" 255"<<std::endl;
@@ -371,8 +371,8 @@ void captureData(){
 	fOut<<box1.rx<<" "<<box1.dx<<" ";
 	fOut<<body1.x<<" "<<body1.y<<" "<<body1.z<<" "<<body1.ry<<" ";
 	fOut<<body2.x<<" "<<body2.y<<" "<<body2.z<<" "<<body2.ry<<" ";
-	fOut<<body1.kneeL.rx<<" "<<body1.kneeR.rx<<" "<<body1.elbowL.rx<<" "<<body1.elbowR.rx<<" ";
-	fOut<<body2.kneeL.rx<<" "<<body2.kneeR.rx<<" "<<body2.elbowL.rx<<" "<<body2.elbowR.rx<<" ";	//18 single
+	fOut<<body1.kneeL.rx<<" "<<body1.kneeR.rx<<" "<<body1.elbowL.rz<<" "<<body1.elbowR.rz<<" ";
+	fOut<<body2.kneeL.rx<<" "<<body2.kneeR.rx<<" "<<body2.elbowL.rz<<" "<<body2.elbowR.rz<<" ";	//18 single
 	vector<float> q(4,0);
 
 	q = createQuaternion(body1.torso2.rx, body1.torso2.ry, body1.torso2.rz);	//22 quat
@@ -448,12 +448,12 @@ void play(int value){
 		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body2.ry)); i++;
 		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body1.kneeL.rx)); i++;
 		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body1.kneeR.rx)); i++;
-		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body1.elbowL.rx)); i++;
-		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body1.elbowR.rx)); i++;
+		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body1.elbowL.rz)); i++;
+		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body1.elbowR.rz)); i++;
 		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body2.kneeL.rx)); i++;
 		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body2.kneeR.rx)); i++;
-		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body2.elbowL.rx)); i++;
-		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body2.elbowR.rx)); i++;
+		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body2.elbowL.rz)); i++;
+		interpolate(frame[index][i][0], frame[(index+1)%2][i][0], a, &(body2.elbowR.rz)); i++;
 
 		interpolate(frame[index][i], frame[(index+1)%2][i], a, &(body1.torso2)); i++;	//22 quat
 		interpolate(frame[index][i], frame[(index+1)%2][i], a, &(body1.neck)); i++;
@@ -603,7 +603,7 @@ void processNormalKeys(unsigned char key, int x, int y){
 		case 'c':
 		case 'C':
 			if(!fOut.is_open()){
-				fOut.open("animate/savedData", fstream::out);
+				fOut.open("animate/savedData", fstream::out | fstream::app);
 			}
 			captureData();
 			break;
