@@ -422,7 +422,7 @@ void captureData(){
 	fOut<<q[0]<<" "<<q[1]<<" "<<q[2]<<" "<<q[3]<<" ";
 	fOut<<endl;
 }
-float a = 1.1;
+float a = 1;
 void interpolate(float init, float end, float alpha, float* param){
 	*param = (1-alpha) * init + end * alpha;
 }
@@ -478,9 +478,9 @@ void play(int value){
 		interpolate(frame[index][i], frame[(index+1)%2][i], a, &(body2.wristL)); i++;
 		interpolate(frame[index][i], frame[(index+1)%2][i], a, &(body2.wristR)); i++;
 		interpolate(frame[index][i], frame[(index+1)%2][i], a, &(body2.stickjoint)); i++;
-		a+=0.1;
+		a+=0.05;
 		glutPostRedisplay();
-		glutTimerFunc(200, play, 0);
+		glutTimerFunc(100, play, 0);
 	}
 	else if(fIn.good()){
 		string line;
@@ -493,7 +493,7 @@ void play(int value){
 		index++;
 		index%=2;
 		a=0;
-		glutTimerFunc(200, play, 0);
+		glutTimerFunc(100, play, 0);
 	}
 }
 bool moveB;
@@ -670,37 +670,37 @@ void processNormalKeys(unsigned char key, int x, int y){
 			break;
 		case '1':
 			if(!moveB)
-				toRotate->rx -= 1.0;
+				toRotate->rx -= 2.0;
 			else
 				bs->x-= 2;
 			break;
 		case '3':
 			if(!moveB)
-				toRotate->rx += 1.0;
+				toRotate->rx += 2.0;
 			else
 				bs->x+= 2;
 			break;
 		case '4':
 			if(!moveB)
-				toRotate->ry -= 1.0;
+				toRotate->ry -= 2.0;
 			else
 				bs->ry-= 1.0;
 			break;
 		case '6':
 			if(!moveB)
-				toRotate->ry += 1.0;
+				toRotate->ry += 2.0;
 			else
 				bs->ry+= 1.0;
 			break;
 		case '7':
 			if(!moveB)
-				toRotate->rz -= 1.0;
+				toRotate->rz -= 2.0;
 			else
 				bs->z-= 2;
 			break;
 		case '9':
 			if(!moveB)
-				toRotate->rz += 1.0;
+				toRotate->rz += 2.0;
 			else
 				bs->z+=2;
 			break;

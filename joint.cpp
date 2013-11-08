@@ -50,14 +50,14 @@ void joint::setConstraint(float cxn, float cxp, float cyn, float cyp, float czn,
 }
 
 void joint::draw(){
-	if(cxn > rx) rx = cxn;
-	else if(cxp < rx) rx = cxp;
+	// if(cxn > rx) rx = cxn;
+	// else if(cxp < rx) rx = cxp;
 
-	if(cyn > ry) ry = cyn;
-	else if(cyp < ry) ry = cyp;
+	// if(cyn > ry) ry = cyn;
+	// else if(cyp < ry) ry = cyp;
 
-	if(czn > rz) rz = czn;
-	else if(czp < rz) rz = czp;
+	// if(czn > rz) rz = czn;
+	// else if(czp < rz) rz = czp;
 	glPushMatrix();
 		glTranslatef(x, y, z);
 		glRotatef(rx, 1.0, 0.0, 0.0);

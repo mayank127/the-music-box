@@ -27,6 +27,11 @@ a - Ankle Left		A - Ankle Right
 s - Shoulder L		S - Shoulder R
 e - Elbow Left		E - Elbow Right
 w - Wrist Left		W - Wrist Right
+b - body movement
+c - capture frame
+p - play while reading file
+r - start recording
+
 
 To make points for bezier curve click anywhere on screen and to move in or out use zoom in & zoom out.
 Press space to generate curve and Enter to move camera on it.
@@ -42,3 +47,6 @@ Used images from different sources found by google image.
 
 Link to report:-
 http://www.cse.iitb.ac.in/~manku/the-music-box
+
+Link to video:-
+http://www.youtube.com/watch?v=cMU4RTHNSzc
