@@ -24,7 +24,7 @@ void room::init(){
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
-	
+
 	wall2_tex = SOIL_load_OGL_texture
 	(
 	  "images/wall2.jpg",
@@ -32,7 +32,7 @@ void room::init(){
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
-	
+
 	walls_tex = SOIL_load_OGL_texture
 	(
 	  "images/walls.jpg",
@@ -48,7 +48,7 @@ void room::init(){
 	  SOIL_CREATE_NEW_ID,
 	  SOIL_FLAG_INVERT_Y
 	);
-	
+
 	silver_tex = SOIL_load_OGL_texture
 	(
 	  "images/silver.jpeg",
@@ -106,7 +106,6 @@ void room::init(){
 				createSide(size1,size3);
 			glPopMatrix();
 		glPopMatrix();
-		
 	glEndList();
 
 	size1 = 80; size2 = 50;
@@ -144,7 +143,7 @@ void room::init(){
 				createSide(size2,1);
 			glPopMatrix();
 		glPopMatrix();
-		
+
 	glEndList();
 
 	size1 = 15; size2 = 20;
@@ -183,7 +182,7 @@ void room::init(){
 				createSide(size2,1);
 			glPopMatrix();
 		glPopMatrix();
-		
+
 	glEndList();
 
 	cabinet  = glGenLists(1);
@@ -282,7 +281,7 @@ void room::init(){
 			glPopMatrix();
 		glPopMatrix();
 	glEndList();
-	
+
 	lamp = glGenLists(1);
 	glNewList(lamp, GL_COMPILE);
 		glPushMatrix();

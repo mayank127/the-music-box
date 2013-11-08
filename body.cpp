@@ -224,7 +224,6 @@ void body::initMuscles(){
 		gluDisk(quadratic,1.5f,2.5f,32,32);
 		gluCylinder(quadratic,2.5f,2.5f,0.2f,32,32);
 		glPopMatrix();
-		
 		glPushMatrix();
 		glTranslatef(0.0, 2.5, 0.0);
 		glRotatef(90.0, 1.0, 0.0, 0.0);

@@ -60,9 +60,9 @@ void joint::draw(){
 	else if(czp < rz) rz = czp;
 	glPushMatrix();
 		glTranslatef(x, y, z);
-		glRotatef(rx, 1.0, 0.0, 0.0);
-		glRotatef(ry, 0.0, 1.0, 0.0);
 		glRotatef(rz, 0.0, 0.0, 1.0);
+		glRotatef(ry, 0.0, 1.0, 0.0);
+		glRotatef(rx, 1.0, 0.0, 0.0);
 		glBindTexture(GL_TEXTURE_2D, this->texture);
 		glCallList(muscle);
 		if(this->child!=NULL)
