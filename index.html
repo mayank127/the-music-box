@@ -130,7 +130,11 @@ k - Knee Left       K - Knee Right
 a - Ankle Left          A - Ankle Right  
 s - Shoulder L          S - Shoulder R  
 e - Elbow Left          E - Elbow Right  
-w - Wrist Left          W - Wrist Right  
+w - Wrist Left          W - Wrist Right
+b - move body
+c - capture frame  
+r - record start  
+p - play animation from saved frame
 
 To make points for bezier curve click anywhere on screen and to move in or out use zoom in and zoom out.
 Press space to generate curve and Enter to move camera on it.  
@@ -140,7 +144,21 @@ Press space to generate curve and Enter to move camera on it.
 
 <p><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample7.png" alt="Sample7"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample8.png" alt="Sample8"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample9.png" alt="Sample9"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample10.png" alt="Sample10"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample11.png" alt="Sample11"><br><img src="http://www.cse.iitb.ac.in/%7Emanku/Images/the-music-box/sample12.png" alt="Sample12"></p>
 
-<hr><p><strong>Citations</strong></p>
+<hr><h3>
+<a name="the-music-box---stage-iii---animation" class="anchor" href="#the-music-box---stage-iii---animation"><span class="octicon octicon-link"></span></a>The Music Box - Stage III - Animation</h3>
+
+<p>At this stage created animation for the music box using key frame interpolations. For simple joints applied linear interpolation and for 3 degree freedom joints to avoid gimbal lock used quarternions to interpolate.</p>
+
+<hr><p><strong>For Animation</strong></p>
+
+<ul>
+<li>Added functions fro conversion from Euler to quarteenions and vice versa.</li>
+<li>Added function Slerp for interpolating quarternions.</li>
+<li>Added functionality of saving key frames and loading them and interpolating between them.</li>
+<li>Saved each draw function to save a frame as image and then used them to make video. </li>
+<li>Video Link - <a href="https://www.youtube.com/watch?v=cMU4RTHNSzc">Youtube Link </a>
+</li>
+</ul><hr><p><strong>Citations</strong></p>
 
 <ul>
 <li>Used SOIL Library for loading image as texture.
